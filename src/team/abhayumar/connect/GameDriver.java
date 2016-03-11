@@ -15,6 +15,7 @@ public class GameDriver {
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
 			}
 		});
 	}
