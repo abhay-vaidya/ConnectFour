@@ -11,6 +11,7 @@ public class GameDriver {
 				JFrame frame = new MainFrame("Connect Four");
 				// ImageIcon img = new ImageIcon("");
 				// frame.setIconImage(img.getImage());
+				frame.pack();
 				frame.setSize(700, 700);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
