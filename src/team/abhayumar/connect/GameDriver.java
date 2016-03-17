@@ -12,7 +12,7 @@ public class GameDriver {
 				// ImageIcon img = new ImageIcon("");
 				// frame.setIconImage(img.getImage());
 				frame.pack();
-				frame.setSize(700, 700);
+				frame.setSize(700, 600);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
