@@ -1,9 +1,11 @@
 package team.abhayumar.connect;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,9 +39,6 @@ public class MainFrame extends JFrame {
 		panels.put("buttons", new JPanel());
 		panels.put("graphics", new JPanel());
 		
-		
-		// Set temporary frame layout
-		getContentPane().setLayout(new BorderLayout());
 
 		// Create overlay panel to hold all other panels
 		JPanel mainMenuPanel = new JPanel();
@@ -47,12 +46,8 @@ public class MainFrame extends JFrame {
 		
 		
 		// Temporary button layout
-		GridBagLayout gbl_buttons = new GridBagLayout();
-		gbl_buttons.columnWidths = new int[]{700, 0};
-		gbl_buttons.rowHeights = new int[]{550, 0};
-		gbl_buttons.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_buttons.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panels.get("buttons").setLayout(gbl_buttons);
+		GridLayout gl_buttons = new GridLayout(6, 7, 0, 0);
+		panels.get("buttons").setLayout(gl_buttons);
 		
 		// Board image
 		BufferedImage myPicture = null;
@@ -62,35 +57,36 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		panels.get("buttons").add(picLabel);
+		panels.get("graphics").add(picLabel);
 		
 		
 		// Set transparency
 		panels.get("graphics").setOpaque(false);
-		panels.get("buttons").setOpaque(false);
+		panels.get("buttons").setOpaque(true);
 
 		// Background
 		panels.get("background").setBackground(Color.decode("#FFE082"));
 		panels.get("background").setPreferredSize(getMaximumSize());
 
 		// Test button
-		JButton btnTestButton = new JButton("TEST BUTTON");
-		btnTestButton.setVerticalAlignment(SwingConstants.BOTTOM);
-		GridBagConstraints gbc_btnTestButton = new GridBagConstraints();
-		gbc_btnTestButton.anchor = GridBagConstraints.SOUTH;
-		gbc_btnTestButton.gridx = 0;
-		gbc_btnTestButton.gridy = 0;
-		panels.get("buttons").add(btnTestButton, gbc_btnTestButton);
+		for (int i=0; i<(Game.ROWS * Game.COLUMNS); i++) {
+			panels.get("buttons").add(new Button("Hi"));
+		}
 		
-		mainMenuPanel.add(panels.get("buttons"));
+		
 		mainMenuPanel.add(panels.get("graphics"));
-		mainMenuPanel.add(panels.get("background"));
+		mainMenuPanel.add(panels.get("buttons"));
+		//mainMenuPanel.add(panels.get("background"));
 
 		getContentPane().add(mainMenuPanel);
 		
+		
+		
 		// REMOVE THIS
-		switchTo("background");
-		switchBackground(new Player("test",2));
+		//switchTo("background");
+		//switchBackground(new Player("test",2));
+		
+		
 		
 	}
 	
