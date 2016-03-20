@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 	// Panels to be merged
 	private HashMap<String, JPanel> panels = new HashMap<String, JPanel>();
 	// Colors
-	private static Color[] colors = {new Color(255,0,0), new Color(255,255,0)};
+	private static Color[] colors = {null, new Color(255,0,0), new Color(255,255,0)};
 	
 	public MainFrame(String title){
 		this.setTitle(title);
@@ -86,7 +86,9 @@ public class MainFrame extends JFrame {
 
 		getContentPane().add(mainMenuPanel);
 		
-		
+		// REMOVE THIS
+		switchTo("background");
+		switchBackground(new Player("test",2));
 		
 	}
 	
@@ -111,7 +113,7 @@ public class MainFrame extends JFrame {
 	 * @param player - Player whose turn it is
 	 */
 	public void switchBackground(Player player) {
-		this.setBackground(colors[player.getID()]);
+		panels.get("background").setBackground(colors[player.getID()]);
 	}
 	
 }
