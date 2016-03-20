@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
+	private static Game newGame;
+	
 	// Panels to be merged
 	private HashMap<String, JPanel> panels = new HashMap<String, JPanel>();
 	// Colors
@@ -114,6 +116,20 @@ public class MainFrame extends JFrame {
 	 */
 	public void switchBackground(Player player) {
 		panels.get("background").setBackground(colors[player.getID()]);
+	}
+	
+	public static void main(String[] args) {
+		MainFrame frame = new MainFrame("Connect Four");
+		// ImageIcon img = new ImageIcon("");
+		// frame.setIconImage(img.getImage());
+		frame.pack();
+		frame.setSize(700, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		
+		newGame = new Game();
 	}
 	
 }
