@@ -11,9 +11,9 @@ public class Game {
 	private Player playerOne;
 	private Player playerTwo;
 	public Player turn = playerOne;
-	private final int rows = 6;
-	private final int columns = 7;
-	private int board[][] = new int[rows][columns];
+	public static final int ROWS = 6;
+	public static final int COLUMNS = 7;
+	private int board[][] = new int[ROWS][COLUMNS];
 	
 	/**
 	 * Empty constructor
@@ -49,8 +49,8 @@ public class Game {
 	 * Fills board array with zero/unoccupied values
 	 */
 	public void initializeBoard(){
-		for (int i = 0; i < rows; i++){
-			for (int j = 0; j < columns; j++){
+		for (int i = 0; i < ROWS; i++){
+			for (int j = 0; j < COLUMNS; j++){
 				board[i][j] = 0;
 			}
 		}
@@ -81,8 +81,8 @@ public class Game {
 	 */
 	public boolean hasWinner(){
 		boolean winner = false;
-		for (int i = 0; i < rows; i ++) {
-			for (int j = 0; j < columns; j ++) {
+		for (int i = 0; i < ROWS; i ++) {
+			for (int j = 0; j < COLUMNS; j ++) {
 				// Check player one  
 		    	if (board[i][j] == 1 && j < 4 && i < 3){
 		    		// Check horizontal
