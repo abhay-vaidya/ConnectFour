@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
 		// Create panels and store in Map for easy access
 		panels.put("background", new JPanel());
 		panels.put("buttons", new JPanel());
-		panels.put("grpahics", new JPanel());
+		panels.put("graphics", new JPanel());
 		
 		
 		// Set temporary frame layout
@@ -106,6 +106,10 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * Switches background color to that of current player
+	 * @param player - Player whose turn it is
+	 */
 	public void switchBackground(Player player) {
 		this.setBackground(colors[player.getID()]);
 	}
