@@ -17,9 +17,10 @@ public class C4Panel extends JPanel implements MouseListener {
 		//System.out.println("x:" + String.valueOf(e.getX()) + " y: " + String.valueOf(e.getY()));
 		int x = e.getX();
 		int y = e.getY();
-		int row = Math.round(MainFrame.HEIGHT / x);
-		int column = Math.round(MainFrame.WIDTH / y);
-		MainFrame.newGame.updateBoard(row, column);
+		int row = Math.round(y / 100);
+		int column = Math.round(x / 100);
+		System.out.println(String.valueOf(row) + " " + String.valueOf(column));
+		//MainFrame.newGame.updateBoard(row, column);
 	}
 
 	@Override
