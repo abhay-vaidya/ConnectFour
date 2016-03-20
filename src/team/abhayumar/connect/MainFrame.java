@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	public MainFrame(String title){
 		super(title);
