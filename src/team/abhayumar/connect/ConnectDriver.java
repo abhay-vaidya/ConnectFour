@@ -8,7 +8,7 @@ public class ConnectDriver {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run(){
-				JFrame frame = new MainFrame("Connect Four");
+				MainFrame frame = new MainFrame("Connect Four");
 				// ImageIcon img = new ImageIcon("");
 				// frame.setIconImage(img.getImage());
 				frame.pack();
@@ -17,6 +17,8 @@ public class ConnectDriver {
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);
+				
+				Game newGame = new Game();
 			}
 		});
 	}
