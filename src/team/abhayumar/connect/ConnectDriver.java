@@ -3,7 +3,7 @@ import javax.swing.*;
 
 import team.abhayumar.connect.MainFrame;
 
-public class GameDriver {
+public class ConnectDriver {
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable(){
