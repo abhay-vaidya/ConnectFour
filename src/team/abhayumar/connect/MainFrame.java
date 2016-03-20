@@ -2,25 +2,39 @@ package team.abhayumar.connect;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.SwingConstants;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
+	
+	// Panels to be merged
+	private HashMap<String, JPanel> panels = new HashMap<String, JPanel>();
+	// Colors
+	private static Color[] colors = {new Color(255,0,0), new Color(255,255,0)};
+	
 	public MainFrame(String title){
-		super(title);
+		this.setTitle(title);
+		
+		// Create panels and store in Map for easy access
+		panels.put("background", new JPanel());
+		panels.put("buttons", new JPanel());
+		panels.put("grpahics", new JPanel());
+		
 		
 		// Set temporary frame layout
 		getContentPane().setLayout(new BorderLayout());
@@ -29,10 +43,6 @@ public class MainFrame extends JFrame {
 		JPanel mainMenuPanel = new JPanel();
 		mainMenuPanel.setLayout(new OverlayLayout(mainMenuPanel));
 		
-		// Panels to be merged
-		JPanel background = new JPanel();
-		JPanel buttons = new JPanel();
-		JPanel graphics = new JPanel();
 		
 		// Temporary button layout
 		GridBagLayout gbl_buttons = new GridBagLayout();
@@ -40,7 +50,7 @@ public class MainFrame extends JFrame {
 		gbl_buttons.rowHeights = new int[]{550, 0};
 		gbl_buttons.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_buttons.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		buttons.setLayout(gbl_buttons);
+		panels.get("buttons").setLayout(gbl_buttons);
 		
 		// Board image
 		BufferedImage myPicture = null;
@@ -50,15 +60,16 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		graphics.add(picLabel);
+		panels.get("buttons").add(picLabel);
+		
 		
 		// Set transparency
-		graphics.setOpaque(false);
-		buttons.setOpaque(false);
+		panels.get("graphics").setOpaque(false);
+		panels.get("buttons").setOpaque(false);
 
 		// Background
-		background.setBackground(Color.decode("#FFE082"));
-		background.setPreferredSize(getMaximumSize());
+		panels.get("background").setBackground(Color.decode("#FFE082"));
+		panels.get("background").setPreferredSize(getMaximumSize());
 
 		// Test button
 		JButton btnTestButton = new JButton("TEST BUTTON");
@@ -67,12 +78,36 @@ public class MainFrame extends JFrame {
 		gbc_btnTestButton.anchor = GridBagConstraints.SOUTH;
 		gbc_btnTestButton.gridx = 0;
 		gbc_btnTestButton.gridy = 0;
-		buttons.add(btnTestButton, gbc_btnTestButton);
+		panels.get("buttons").add(btnTestButton, gbc_btnTestButton);
 		
-		mainMenuPanel.add(buttons);
-		mainMenuPanel.add(graphics);
-		mainMenuPanel.add(background);
+		mainMenuPanel.add(panels.get("buttons"));
+		mainMenuPanel.add(panels.get("graphics"));
+		mainMenuPanel.add(panels.get("background"));
 
 		getContentPane().add(mainMenuPanel);
+		
+		
+		
 	}
+	
+	/**
+	 * Switches the active panel to the one specified
+	 * @param key - the name of the panel (i.e. background, buttons, graphics)
+	 */
+	public void switchTo(String key) {
+		if ( panels.containsKey(key) ) {
+			for (String k : panels.keySet()) {
+				panels.get(k).setVisible(false);
+			}
+			panels.get(key).setVisible(true);
+		} else {
+			// DEBUG message
+			System.out.println("Invalid panel name!");
+		}
+	}
+	
+	public void switchBackground(Player player) {
+		this.setBackground(colors[player.getID()]);
+	}
+	
 }

@@ -91,6 +91,11 @@ public class Player {
 		this.draws = draws;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		Player p = (Player)obj;
+		return p.getID() == this.getID();
+	}
 	
 	
 	
