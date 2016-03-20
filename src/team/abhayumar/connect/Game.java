@@ -6,11 +6,13 @@ package team.abhayumar.connect;
  * @version 1.0
  */
 public class Game {
+	
+	// Initialize variables
 	private Player playerOne;
 	private Player playerTwo;
 	public Player turn = playerOne;
-	private int rows = 6;
-	private int columns = 7;
+	private final int rows = 6;
+	private final int columns = 7;
 	private int board[][] = new int[rows][columns];
 	
 	/**
@@ -91,6 +93,10 @@ public class Game {
 		    		if(board[i+1][j] == 1 && board[i+2][j] == 1 && board[i+3][j] == 1){
 		    			winner = true;
 		    		}
+		    		// Check diagonal
+		    		if(board[i+1][j+1] == 1 && board[i+2][j+2] == 1 && board[i+3][j+3] == 1){
+		    			winner = true;
+		    		}
 		    	} 	
 				// Check player two  
 		    	if (board[i][j] == 2 && j < 4 && i < 3){
@@ -100,6 +106,10 @@ public class Game {
 		    		}
 		    		// Check vertical
 		    		if(board[i+1][j] == 2 && board[i+2][j] == 2 && board[i+3][j] == 2){
+		    			winner = true;
+		    		}
+		    		// Check diagonal
+		    		if(board[i+1][j+1] == 2 && board[i+2][j+2] == 2 && board[i+3][j+3] == 2){
 		    			winner = true;
 		    		}
 		    	} 
