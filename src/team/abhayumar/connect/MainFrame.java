@@ -15,7 +15,9 @@ import javax.swing.OverlayLayout;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
-	private static Game newGame;
+	public static Game newGame;
+	public static final int WIDTH = 700;
+	public static final int HEIGHT = 600;
 	
 	// Panels to be merged
 	private HashMap<String, C4Panel> panels = new HashMap<String, C4Panel>();
@@ -69,11 +71,7 @@ public class MainFrame extends JFrame {
 		//switchTo("background");
 		//switchBackground(new Player("test",2));
 		
-		while(true) {
-			if (Game.needsUpdate) {
-				newGame.initializeBoard();
-			}
-		}
+		
 		
 		
 	}
@@ -107,7 +105,7 @@ public class MainFrame extends JFrame {
 		// ImageIcon img = new ImageIcon("");
 		// frame.setIconImage(img.getImage());
 		frame.pack();
-		frame.setSize(700, 600);
+		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);

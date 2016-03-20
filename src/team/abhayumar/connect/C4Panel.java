@@ -14,8 +14,12 @@ public class C4Panel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("x:" + String.valueOf(e.getX()) + " y: " + String.valueOf(e.getY()));
-		Game.needsUpdate = true;
+		//System.out.println("x:" + String.valueOf(e.getX()) + " y: " + String.valueOf(e.getY()));
+		int x = e.getX();
+		int y = e.getY();
+		int row = Math.round(MainFrame.HEIGHT / x);
+		int column = Math.round(MainFrame.WIDTH / y);
+		MainFrame.newGame.updateBoard(row, column);
 	}
 
 	@Override
