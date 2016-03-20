@@ -15,6 +15,8 @@ public class Game {
 	public static final int COLUMNS = 7;
 	private int board[][] = new int[ROWS][COLUMNS];
 	
+	public static boolean needsUpdate = false;
+	
 	/**
 	 * Empty constructor
 	 */

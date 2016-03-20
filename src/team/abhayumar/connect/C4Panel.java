@@ -15,7 +15,7 @@ public class C4Panel extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("x:" + String.valueOf(e.getX()) + " y: " + String.valueOf(e.getY()));
-		
+		Game.needsUpdate = true;
 	}
 
 	@Override

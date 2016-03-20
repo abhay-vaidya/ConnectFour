@@ -69,6 +69,11 @@ public class MainFrame extends JFrame {
 		//switchTo("background");
 		//switchBackground(new Player("test",2));
 		
+		while(true) {
+			if (Game.needsUpdate) {
+				newGame.initializeBoard();
+			}
+		}
 		
 		
 	}
