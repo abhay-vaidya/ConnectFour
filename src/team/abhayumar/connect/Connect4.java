@@ -13,10 +13,10 @@ public class Connect4 extends Canvas implements Runnable {
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
 	
-	private JFrame frame; 
+	private JFrame frame;
+	private Renderer renderer;
 	
 	public Connect4() {
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		init();
 	}
 	
@@ -44,6 +44,8 @@ public class Connect4 extends Canvas implements Runnable {
 	}
 	
 	public void init() {
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		renderer = new Renderer();
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
@@ -52,13 +54,6 @@ public class Connect4 extends Canvas implements Runnable {
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		Connect4 game = new Connect4();
-		Dimension dimension = new Dimension(WIDTH, HEIGHT);
-		game.setMaximumSize(dimension);
-		game.start();
 	}
 
 }
