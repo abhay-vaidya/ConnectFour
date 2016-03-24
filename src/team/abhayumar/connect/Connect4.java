@@ -39,6 +39,17 @@ public class Connect4 extends Canvas implements Runnable {
 		}
 	}	
 	
+	@Override
+	public void run() {
+		System.out.println("Hello World");
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		g.setColor(new Color(255,0,0));
+		g.fillRect(0, 0, 100, 100);
+	}
+	
 	public void render() {
 		
 	}
@@ -47,16 +58,6 @@ public class Connect4 extends Canvas implements Runnable {
 		
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		g.setColor(new Color(255,0,0));
-		g.fillRect(0, 0, 100, 100);
-	}
-
-	@Override
-	public void run() {
-		System.out.println("Hello World");
-	}
 	
 	public void init() {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
