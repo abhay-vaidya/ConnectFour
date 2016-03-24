@@ -15,6 +15,7 @@ public class Connect4 extends Canvas implements Runnable {
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
 	
+	private Thread thread;
 	private JFrame frame;
 	private Renderer renderer;
 	
@@ -24,11 +25,18 @@ public class Connect4 extends Canvas implements Runnable {
 	
 	public void start() {
 		running = true;
-		new Thread(this).start();
+		thread = new Thread(this);
+		thread.start();
 	}
 	
 	public void stop() {
 		running = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}	
 	
 	public void render() {
