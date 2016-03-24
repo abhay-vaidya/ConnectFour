@@ -15,7 +15,7 @@ public class Renderer {
 		
 	}
 	
-	public clear() {
+	public void clear() {
 		
 	}
 	

@@ -1,7 +1,9 @@
 package team.abhayumar.connect;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 
@@ -37,6 +39,11 @@ public class Connect4 extends Canvas implements Runnable {
 		
 	}
 	
+	@Override
+	public void paint(Graphics g) {
+		g.setColor(new Color(255,0,0));
+		g.fillRect(0, 0, 100, 100);
+	}
 
 	@Override
 	public void run() {
