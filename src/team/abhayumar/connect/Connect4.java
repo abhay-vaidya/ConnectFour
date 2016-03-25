@@ -17,7 +17,7 @@ public class Connect4 extends Canvas implements Runnable {
 	
 	private Thread thread;
 	private JFrame frame;
-	private Renderer renderer;
+	private Bitmap renderer;
 	
 	public Connect4() {
 		init();
@@ -67,7 +67,7 @@ public class Connect4 extends Canvas implements Runnable {
 	}
 	
 	public void render() {
-		System.out.println("Test");
+		
 	}
 	
 	public void update() {
@@ -77,7 +77,7 @@ public class Connect4 extends Canvas implements Runnable {
 	
 	public void init() {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		renderer = new Renderer();
+		renderer = new Bitmap();
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
