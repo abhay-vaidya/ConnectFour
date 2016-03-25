@@ -76,7 +76,9 @@ public class Game {
 				lowestRow = i;
 			}
 		}
+		if (board[lowestRow][col] == 0){
 		board[lowestRow][col] = player.getID();
+		}
 	}
 	
 	/**
@@ -121,17 +123,17 @@ public class Game {
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i <= 2){
+		    	if (board[i][j] == 1 && j >= 4 && i <= 2){
 		    		if(board[i+1][j-1] == 1 && board[i+2][j-2] == 1 && board[i+3][j-3] == 1){
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j <= 3 && i >= 3){
+		    	if (board[i][j] == 1 && j <= 3 && i >= 3){
 		    		if(board[i-1][j+1] == 1 && board[i-2][j+2] == 1 && board[i-3][j+3] == 1){
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i >= 3){
+		    	if (board[i][j] == 1 && j >= 4 && i >= 3){
 		    		if(board[i-1][j-1] == 1 && board[i-2][j-2] == 1 && board[i-3][j-3] == 1){
 		    			winner = true;
 		    		}
