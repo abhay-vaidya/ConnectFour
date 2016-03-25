@@ -124,11 +124,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		renderer = new Renderer(WIDTH, HEIGHT);
 		Game game = new Game();
+		
+		addMouseListener(this);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		System.out.print("HELLO");
 		
 	}
 
