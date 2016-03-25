@@ -25,9 +25,9 @@ public class Bitmap {
 		
 		// Image bounds checking
 		if (xStart < 0) xStart = 0;
-		if (xEnd > bmp.width) xEnd = bmp.width;
+		if (xEnd > width) xEnd = width;
 		if (yStart < 0) yStart = 0;
-		if (yEnd > bmp.height) yEnd = bmp.height;
+		if (yEnd > height) yEnd = height;
 		
 		int widthResult = xEnd - xStart;
 		

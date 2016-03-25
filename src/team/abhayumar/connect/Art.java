@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Art extends Bitmap {
 	
-	private BufferedImage image;
+	private BufferedImage image = null;
 
 	public Art(String path, int w, int h) {
 		super(w, h);
@@ -17,9 +17,7 @@ public class Art extends Bitmap {
 		File inFile = new File(path);
 		try {
 			image = ImageIO.read(inFile);
-			
-			// link BufferedImage data to pixels[]
-			pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+			pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
