@@ -55,7 +55,7 @@ public class Game {
 	/**
 	 * Fills board array with zero/unoccupied values
 	 */
-	public void initializeBoard(){
+	public void clearBoard(){
 		for (int i = 0; i < ROWS; i++){
 			for (int j = 0; j < COLUMNS; j++){
 				board[i][j] = 0;
