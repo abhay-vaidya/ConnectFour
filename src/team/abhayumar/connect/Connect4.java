@@ -28,8 +28,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private Renderer renderer;
 	
 	public Connect4() {
-		Game game = new Game();
-		init();
+		
 	}
 	
 	public void start() {
@@ -45,10 +44,12 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}	
+	}
 	
 	@Override
 	public void run() {
+		
+		init();
 		
 		long lastTime = System.nanoTime();
 		final double TARGET_FPS = 60.0;
@@ -70,7 +71,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			render();
 			frames++;
 			
-			if(System.currentTimeMillis() - timer >= 1000) {
+			if (System.currentTimeMillis() - timer >= 1000) {
 	            timer += 1000;
 	            frame.setTitle(TITLE + " | ups: " + updates + " fps: " + frames);
 	            updates = 0;
@@ -81,7 +82,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	}
 	
 	public void render() {
-		BufferStrategy bs = getBufferStrategy();
+		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null){
 			createBufferStrategy(3);
 			requestFocus();  // VERY IMPORTANT
@@ -91,7 +92,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		Graphics g = bs.getDrawGraphics();
 		
 		// Draw objects
-		g.drawLine(0,0,100,100);
+		renderer.clear();
+		for (int i=0; i<HEIGHT; i++) {
+			renderer.pixels[i + i * WIDTH] = Color.yellow.getRGB();
+		}
 		
 		// Render
 		g.drawImage(renderer.image, 0, 0, WIDTH, HEIGHT, null);
@@ -104,8 +108,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	}
 	
 	public void init() {
+		setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		renderer = new Renderer(WIDTH, HEIGHT);
+		setSize(new Dimension(WIDTH, HEIGHT));
+			
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
@@ -114,6 +121,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+		
+		renderer = new Renderer(WIDTH, HEIGHT);
+		Game game = new Game();
 	}
 
 	@Override

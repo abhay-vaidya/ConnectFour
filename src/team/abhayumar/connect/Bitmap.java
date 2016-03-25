@@ -4,17 +4,17 @@ import java.util.Arrays;
 
 public class Bitmap {
 	
-	private int width, height;
+	public int width, height;
 	public int[] pixels;
 	
 	public Bitmap(int w, int h) {
 		this.width = w;
 		this.height = h;
-		setPixels(new int[this.width * this.height]);
+		this.pixels = new int[this.width * this.height];
 	}
 	
 	public void clear() {
-		Arrays.fill(getPixels(), 0);
+		Arrays.fill(this.pixels, 0);
 	}
 	
 	public void render(Bitmap bmp, int x, int y) {
@@ -35,19 +35,12 @@ public class Bitmap {
 		for (int i=yStart; i<yEnd; i++) {  // Rows
 			int tp = i * this.width + xStart;
 			int sp = (i - y) * bmp.width + (xStart - x);
+			tp -= sp;
 			for(int j=sp; j<sp + widthResult; j++) {  // Columns
-				int color = bmp.getPixels()[j];
-				if (color < 0) pixels[xStart + i * this.width + j] = color;
+				int color = bmp.pixels[j];
+				if (color < 0) pixels[tp + j] = color;
 			}
 		}
-	}
-
-	public int[] getPixels() {
-		return pixels;
-	}
-
-	public void setPixels(int[] pixels) {
-		this.pixels = pixels;
 	}
 	
 }
