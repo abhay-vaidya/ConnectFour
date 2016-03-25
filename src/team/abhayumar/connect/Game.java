@@ -11,6 +11,7 @@ public class Game {
 	private Player playerOne;
 	private Player playerTwo;
 	public Player turn;
+	int lowestRow;
 	public static final int ROWS = 6;
 	public static final int COLUMNS = 7;
 	private int board[][] = new int[ROWS][COLUMNS];
@@ -69,7 +70,13 @@ public class Game {
 	 * @param player - Player to be entered
 	 */
 	public void updateBoard(int row, int col, Player player){
-		board[row][col] = player.getID();
+		lowestRow = 0;
+		for (int i = 0; i < 5; i++){
+			if (board[i][col] == 0){
+				lowestRow = i;
+			}
+		}
+		board[lowestRow][col] = player.getID();
 	}
 	
 	/**

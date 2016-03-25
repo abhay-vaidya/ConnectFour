@@ -150,6 +150,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
 			game.updateBoard(row, column, game.turn);
 			game.nextTurn();
+			if(game.hasWinner() == true){
+				System.out.println("Winner!");
+			}
 		}
 	}
 
