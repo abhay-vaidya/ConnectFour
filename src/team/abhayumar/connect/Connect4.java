@@ -41,9 +41,25 @@ public class Connect4 extends Canvas implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Hello World");
+		
+		   long lastTime = System.nanoTime();
+		   final double TARGET_FPS = 60.0;
+		   final double ns = 1000000000.0 / TARGET_FPS; 
+		   double delta = 0;
+		   
+		while (running){
+			long now = System.nanoTime();
+			delta += (now-lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1){
+				update();
+				delta--;
+			}
+			render();
+		}
+		stop();
 	}
-	
+			
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(new Color(255,0,0));
@@ -51,10 +67,10 @@ public class Connect4 extends Canvas implements Runnable {
 	}
 	
 	public void render() {
-		
+		System.out.println("Test");
 	}
 	
-	public void tick() {
+	public void update() {
 		
 	}
 	
