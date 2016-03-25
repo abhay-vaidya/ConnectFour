@@ -177,6 +177,16 @@ public class Game {
 		}
 		return winner;
 	}
+	
+	/**
+	 * The status of a board cell at the inputted row and column
+	 * @param r - the row
+	 * @param c - the column
+	 * @return - the status
+	 */
+	public int getCell(int r, int c) {
+		return board[r][c];
+	}
 }
 	
 	
