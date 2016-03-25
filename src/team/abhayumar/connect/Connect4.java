@@ -173,9 +173,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			if (status == 0) {
 				game.nextTurn();
 			}
-			if(game.hasWinner() == true){
+			if(game.hasWinner()){
 				game.clearBoard();
 				System.out.println(game.turn.getName() + " has won!");
+			}
+			else if (game.hasDraw()){
+				game.clearBoard();
+				System.out.println("There is a draw!");
 			}
 		}
 	}

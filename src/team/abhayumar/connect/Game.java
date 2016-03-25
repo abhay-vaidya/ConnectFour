@@ -95,6 +95,21 @@ public class Game {
 		}
 	}
 	
+	public boolean hasDraw(){
+		int counter = 0;
+		for (int i = 0; i < ROWS; i++){
+			for (int j = 0; j < COLUMNS; j++){
+				if (board[i][j] != 0){
+					counter++;
+				}
+			}
+		}
+		if (counter == ROWS*COLUMNS && !hasWinner()){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Checks board 2D array for any winners
 	 * @return Boolean
