@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
@@ -17,9 +18,10 @@ public class Connect4 extends Canvas implements Runnable {
 	
 	private Thread thread;
 	private JFrame frame;
-	private Bitmap renderer;
+	private Renderer renderer;
 	
 	public Connect4() {
+		Game game = new Game();
 		init();
 	}
 	
@@ -34,7 +36,6 @@ public class Connect4 extends Canvas implements Runnable {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}	
@@ -42,10 +43,10 @@ public class Connect4 extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		
-		   long lastTime = System.nanoTime();
-		   final double TARGET_FPS = 60.0;
-		   final double ns = 1000000000.0 / TARGET_FPS; 
-		   double delta = 0;
+		long lastTime = System.nanoTime();
+		final double TARGET_FPS = 60.0;
+		final double ns = 1000000000.0 / TARGET_FPS; 
+		double delta = 0;
 		   
 		while (running){
 			long now = System.nanoTime();
@@ -59,25 +60,27 @@ public class Connect4 extends Canvas implements Runnable {
 		}
 		stop();
 	}
-			
-	@Override
-	public void paint(Graphics g) {
-		g.setColor(new Color(255,0,0));
-		g.fillRect(0, 0, 100, 100);
-	}
-	
+				
 	public void render() {
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null){
+			createBufferStrategy(3);
+			return;
+		}
 		
+		Graphics g = bs.getDrawGraphics();
+		// Insert drawing here
+		g.dispose();
+		bs.show();
 	}
 	
 	public void update() {
 		
 	}
 	
-	
 	public void init() {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		renderer = new Bitmap();
+		renderer = new Renderer(WIDTH, HEIGHT);
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
