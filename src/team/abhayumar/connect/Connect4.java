@@ -99,11 +99,15 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		// Draw grid
 		
 		// Draw the pieces
-		Art test = new Art("test.png",100,100);
+		Art p1 = new Art("p1.png", 100 ,100);
+		Art p2 = new Art("p2.png", 100, 100);
 		for (int i=0; i<game.ROWS; i++) {
 			for (int j=0; j<game.COLUMNS; j++) {
-				if (game.getCell(i, j) != 0) {
-					renderer.render(test, j*100+100, i*100+200);
+				if (game.getCell(i, j) == 1) {
+					renderer.render(p1, j*100+100, i*100+100);
+				}
+				else if (game.getCell(i, j) == 2){
+					renderer.render(p2, j*100+100, i*100+100);
 				}
 			}
 		}
@@ -153,6 +157,15 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		if (x >= 100 && x <= 800 && y >= 100 && y <=700){
 			int row = Math.round((y - 100)/ 100);
 			int column = Math.round((x - 100) / 100);
+			
+			for (int i=0; i<game.ROWS; i++) {
+				for (int j=0; j<game.COLUMNS; j++) {
+					System.out.print(game.getCell(i, j));
+				}
+				System.out.print('\n');
+			}
+			System.out.print('\n');
+			
 			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
 			game.updateBoard(row, column, game.turn);
 			game.nextTurn();

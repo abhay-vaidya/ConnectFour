@@ -71,7 +71,7 @@ public class Game {
 	 */
 	public void updateBoard(int row, int col, Player player){
 		lowestRow = 0;
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < ROWS; i++){
 			if (board[i][col] == 0){
 				lowestRow = i;
 			}
