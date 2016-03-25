@@ -69,7 +69,7 @@ public class Game {
 	 * @param col - Column value
 	 * @param player - Player to be entered
 	 */
-	public void updateBoard(int row, int col, Player player){
+	public int updateBoard(int row, int col){
 		lowestRow = 0;
 		for (int i = 0; i < ROWS; i++){
 			if (board[i][col] == 0){
@@ -77,8 +77,10 @@ public class Game {
 			}
 		}
 		if (board[lowestRow][col] == 0){
-		board[lowestRow][col] = player.getID();
+			board[lowestRow][col] = turn.getID();
+			return 0;
 		}
+		return -1;
 	}
 	
 	/**

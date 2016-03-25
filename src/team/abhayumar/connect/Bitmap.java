@@ -17,6 +17,10 @@ public class Bitmap {
 		Arrays.fill(this.pixels, 0);
 	}
 	
+	public void fill(int color) {
+		Arrays.fill(this.pixels, color);
+	}
+	
 	public void render(Bitmap bmp, int x, int y) {
 		int xStart = x;
 		int xEnd = x + bmp.width;

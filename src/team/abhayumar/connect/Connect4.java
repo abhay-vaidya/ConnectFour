@@ -95,9 +95,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		// Draw objects
 		renderer.clear();
-		
-		// Draw grid
-		
+		renderer.fill(0x607d8b);
+				
 		// Draw the pieces
 		Art p1 = new Art("p1.png", 100 ,100);
 		Art p2 = new Art("p2.png", 100, 100);
@@ -114,6 +113,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		// Render
 		g.drawImage(renderer.image, 0, 0, WIDTH, HEIGHT, null);
+		// Draw grid
 		g.setColor(Color.CYAN);
 		for (int i=0; i<8; i++) {
 			for (int j=0; j<7; j++) {
@@ -158,6 +158,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			int row = Math.round((y - 100)/ 100);
 			int column = Math.round((x - 100) / 100);
 			
+			/*  BOARD DEBUG CODE
 			for (int i=0; i<game.ROWS; i++) {
 				for (int j=0; j<game.COLUMNS; j++) {
 					System.out.print(game.getCell(i, j));
@@ -165,10 +166,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 				System.out.print('\n');
 			}
 			System.out.print('\n');
-			
 			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
-			game.updateBoard(row, column, game.turn);
-			game.nextTurn();
+			*/
+			
+			int status = game.updateBoard(row, column);
+			if (status == 0) {
+				game.nextTurn();
+			}
 			if(game.hasWinner() == true){
 				game.clearBoard();
 				System.out.println(game.turn.getName() + " has won!");
