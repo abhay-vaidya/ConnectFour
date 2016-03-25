@@ -114,7 +114,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		// Render
 		g.drawImage(renderer.image, 0, 0, WIDTH, HEIGHT, null);
 		// Draw grid
-		g.setColor(Color.WHITE);
+		g.setColor(new Color(0x1976D2));
 		for (int i=0; i<8; i++) {
 			for (int j=0; j<7; j++) {
 				g.drawRect(100, 100, i*100, j*100);
