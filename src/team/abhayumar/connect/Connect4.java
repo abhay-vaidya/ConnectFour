@@ -18,8 +18,10 @@ import javax.swing.JFrame;
 @SuppressWarnings("serial")
 public class Connect4 extends Canvas implements Runnable, MouseListener {
 	
-	private static int WIDTH = 700;
-	private static int HEIGHT = 600;
+	private static int WIDTH = 900;
+	private static int HEIGHT = 800;
+	private static int BOARD_WIDTH = 700;
+	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
 	
@@ -129,31 +131,36 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		System.out.print("HELLO");
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+		int row = Math.round((y - 100)/ 100);
+		int column = Math.round((x - 100) / 100);
+		System.out.println(String.valueOf(row) + " " + String.valueOf(column));
+		
 		
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0) {
+	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
