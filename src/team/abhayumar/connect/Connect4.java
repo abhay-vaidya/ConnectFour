@@ -7,7 +7,12 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
@@ -49,6 +54,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		final double TARGET_FPS = 60.0;
 		final double ns = 1000000000.0 / TARGET_FPS; 
 		double delta = 0;
+		int updates = 0;
+		int frames = 0;
+		long timer = System.currentTimeMillis();
 		   
 		while (running){
 			long now = System.nanoTime();
@@ -56,13 +64,22 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			lastTime = now;
 			while (delta >= 1){
 				update();
+				updates++;
 				delta--;
 			}
 			render();
+			frames++;
+			
+			if(System.currentTimeMillis() - timer >= 1000) {
+	            timer += 1000;
+	            frame.setTitle(TITLE + " | ups: " + updates + " fps: " + frames);
+	            updates = 0;
+	            frames = 0;
+	        }
 		}
 		stop();
 	}
-				
+	
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null){
@@ -74,18 +91,16 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		Graphics g = bs.getDrawGraphics();
 		
 		// Draw objects
-		Bitmap test = new Bitmap(100,100);
-		test.clear();
-		renderer.setPixels(test.getPixels());
+		g.drawLine(0,0,100,100);
 		
 		// Render
-		g.drawImage(renderer.getImage(), 0, 0, WIDTH, HEIGHT, null);
+		g.drawImage(renderer.image, 0, 0, WIDTH, HEIGHT, null);
 		g.dispose();
 		bs.show();
 	}
 	
 	public void update() {
-		
+		// Game logic goes here
 	}
 	
 	public void init() {

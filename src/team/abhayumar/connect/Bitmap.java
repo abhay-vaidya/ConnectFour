@@ -5,11 +5,7 @@ import java.util.Arrays;
 public class Bitmap {
 	
 	private int width, height;
-	private int[] pixels;
-	
-	public Bitmap() {
-		
-	}
+	public int[] pixels;
 	
 	public Bitmap(int w, int h) {
 		this.width = w;
@@ -37,9 +33,11 @@ public class Bitmap {
 		
 		// Retrieve color data
 		for (int i=yStart; i<yEnd; i++) {  // Rows
-			for(int j=xStart; j<widthResult; j++) {  // Columns
+			int tp = i * this.width + xStart;
+			int sp = (i - y) * bmp.width + (xStart - x);
+			for(int j=sp; j<sp + widthResult; j++) {  // Columns
 				int color = bmp.getPixels()[j];
-				pixels[xStart + i * this.width + j] = color;
+				if (color < 0) pixels[xStart + i * this.width + j] = color;
 			}
 		}
 	}
