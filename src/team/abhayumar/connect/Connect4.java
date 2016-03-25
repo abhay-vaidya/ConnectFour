@@ -4,12 +4,14 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
-public class Connect4 extends Canvas implements Runnable {
+public class Connect4 extends Canvas implements Runnable, MouseListener {
 	
 	private static int WIDTH = 700;
 	private static int HEIGHT = 600;
@@ -65,11 +67,19 @@ public class Connect4 extends Canvas implements Runnable {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null){
 			createBufferStrategy(3);
+			requestFocus();  // VERY IMPORTANT
 			return;
 		}
 		
 		Graphics g = bs.getDrawGraphics();
-		// Insert drawing here
+		
+		// Draw objects
+		Bitmap test = new Bitmap(100,100);
+		test.clear();
+		renderer.setPixels(test.getPixels());
+		
+		// Render
+		g.drawImage(renderer.getImage(), 0, 0, WIDTH, HEIGHT, null);
 		g.dispose();
 		bs.show();
 	}
@@ -89,6 +99,36 @@ public class Connect4 extends Canvas implements Runnable {
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

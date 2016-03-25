@@ -13,4 +13,10 @@ public class Renderer extends Bitmap {
 		setPixels(((DataBufferInt)image.getRaster().getDataBuffer()).getData());
 	}
 	
+	
+	
+	public BufferedImage getImage() {
+		return this.image;
+	}
+	
 }
