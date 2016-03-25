@@ -10,7 +10,7 @@ public class Game {
 	// Initialize variables
 	private Player playerOne;
 	private Player playerTwo;
-	public Player turn = playerOne;
+	public Player turn;
 	public static final int ROWS = 6;
 	public static final int COLUMNS = 7;
 	private int board[][] = new int[ROWS][COLUMNS];
@@ -48,6 +48,7 @@ public class Game {
 	public void runGame(String p1, String p2){
 		createPlayer(1, p1);
 		createPlayer(2, p2);
+		turn = playerOne;
 	}
 	
 	/**

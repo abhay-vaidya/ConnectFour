@@ -24,6 +24,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
+	private Game game;
 	
 	private Thread thread;
 	private JFrame frame;
@@ -123,7 +124,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setSize(new Dimension(WIDTH, HEIGHT));
-			
+		
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
@@ -134,7 +135,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		frame.setVisible(true);
 		
 		renderer = new Renderer(WIDTH, HEIGHT);
-		Game game = new Game();
+		game = new Game();
+		game.runGame("Umar", "Abhay");
 		
 		addMouseListener(this);
 	}
@@ -143,11 +145,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		int row = Math.round((y - 100)/ 100);
-		int column = Math.round((x - 100) / 100);
-		System.out.println(String.valueOf(row) + " " + String.valueOf(column));
-		
-		
+		if (x >= 100 && x <= 800 && y >= 100 && y <=700){
+			int row = Math.round((y - 100)/ 100);
+			int column = Math.round((x - 100) / 100);
+			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
+			game.updateBoard(row, column, game.turn);
+			game.nextTurn();
+		}
 	}
 
 	@Override
