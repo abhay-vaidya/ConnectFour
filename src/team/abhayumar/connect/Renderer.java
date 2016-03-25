@@ -13,7 +13,7 @@ public class Renderer extends Bitmap {
 	
 	public Renderer(int w, int h) {
 		super(w,h);
-		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
 	
