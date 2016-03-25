@@ -15,10 +15,5 @@ public class Renderer extends Bitmap {
 		super(w,h);
 		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	}
-	
-	public void draw(Bitmap bmp, int x, int y) {
-		
-	}
-	
+	}	
 }

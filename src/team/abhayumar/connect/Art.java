@@ -1,10 +1,30 @@
 package team.abhayumar.connect;
 
-public class Art extends Bitmap {
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.io.File;
+import java.io.IOException;
 
-	public Art(int w, int h) {
+import javax.imageio.ImageIO;
+
+public class Art extends Bitmap {
+	
+	private BufferedImage image;
+
+	public Art(String path, int w, int h) {
 		super(w, h);
-		// TODO Auto-generated constructor stub
+		
+		File inFile = new File(path);
+		try {
+			image = ImageIO.read(inFile);
+			
+			// link BufferedImage data to pixels[]
+			pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
