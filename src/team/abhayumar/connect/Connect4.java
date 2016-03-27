@@ -23,9 +23,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private JFrame frame;
 	private Screen screen;
 	private static Sound sound;
-	private static boolean isMainMenu;
-	private static boolean isSetup;
-	private static boolean isGameScreen;
+	private enum STATE {
+			MAIN_MENU,
+			INSTRUCTION,
+			SETUP,
+			GAME,
+	};
+	private STATE State;
+	
 	
 	public Connect4() {
 		
@@ -107,13 +112,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		// Draw objects
 		screen.clear();
 		
-		if(isMainMenu){
+		if(State == STATE.MAIN_MENU){
 			screen.fill(0x8BC34A);
-		}
-		else if (isSetup){
+		} else if ( State == STATE.INSTRUCTION ) {
 			
-		}
-		else if (isGameScreen){
+		} else if (State == STATE.SETUP){
+			
+		} else if (State == STATE.GAME){
 			screen.fill(0x2196F3);
 			
 			// Draw the pieces
@@ -155,9 +160,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setSize(new Dimension(WIDTH, HEIGHT));
 		
-		isMainMenu = true;
-		isSetup = false;
-		isGameScreen = false;
+		State = STATE.MAIN_MENU;
 		
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,12 +186,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		int x = e.getX();
 		int y = e.getY();
 		
-		if (isMainMenu) {
-			
+		if (State == STATE.MAIN_MENU) {
+		
+		} else if (State == STATE.INSTRUCTION) {
 
-		} else if (isSetup) {
+		} else if (State == STATE.SETUP) {
 
-		} else if (isGameScreen) {
+		} else if (State == STATE.GAME) {
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
 				int row = Math.round((y - 100) / 100);
 				int column = Math.round((x - 100) / 100);
