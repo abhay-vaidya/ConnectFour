@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
@@ -16,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Connect4 extends Canvas implements Runnable, MouseListener {
+public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMotionListener {
 	
 	private static int WIDTH = 900;
 	private static int HEIGHT = 800;
@@ -24,7 +25,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
-	public static volatile boolean pieceDropped = false;
+	private static int highlightColumn = -1;
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
@@ -124,9 +125,15 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			
 			// Draw the pieces
 			Art bg = new Art("gameboard.png", 768, 680);
+			Art highlight = new Art("highlight.png", 100, 600);
 			screen.render(bg, (WIDTH-bg.width)/2, (HEIGHT-bg.height)/2);
 			Art p1 = new Art("p1.png", 100 ,100);
 			Art p2 = new Art("p2.png", 100, 100);
+			
+			if (highlightColumn != -1){
+				screen.render(highlight, highlightColumn*100+100, 100);
+			}
+			
 			for (int i=0; i<game.ROWS; i++) {
 				for (int j=0; j<game.COLUMNS; j++) {
 					if (game.getCell(i, j) == 1) {
@@ -137,6 +144,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 					}
 				}
 			}
+
 		}
 		
 		// Render
@@ -183,6 +191,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 
 		
 		addMouseListener(this);
+		addMouseMotionListener(this);
 	}
 
 	private void setupDialog(){
@@ -255,7 +264,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -275,6 +283,29 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
+
+		if (State == STATE.GAME) {
+			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
+				int column = Math.round((x - 100) / 100);
+				highlightColumn = column;
+			}
+			else {
+				highlightColumn = -1;
+			}
+
+		}
 	}
 
 }
