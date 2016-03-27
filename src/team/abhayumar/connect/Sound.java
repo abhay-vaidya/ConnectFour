@@ -23,14 +23,14 @@ public class Sound {
 		  }
 	}
 	
-	public static  void playPiece() {
-		  try {
-			   Clip clip = AudioSystem.getClip();
-			   clip.open(AudioSystem.getAudioInputStream(piece));
-			   clip.start();
-			   Thread.sleep(clip.getMicrosecondLength());
-			  } catch (Exception e) {
-			   System.err.println(e.getMessage());
-			  }
-}
+	public static void playPiece() {
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(piece));
+			clip.start();
+			Thread.sleep(clip.getMicrosecondLength());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+	}
 }
