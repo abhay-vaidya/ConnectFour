@@ -114,6 +114,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		if(State == STATE.MAIN_MENU){
 			screen.fill(0x8BC34A);
+			Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
+			screen.render(newGameBtn, (WIDTH-newGameBtn.width)/2, (HEIGHT-newGameBtn.height)/2);
+			
 		} else if ( State == STATE.INSTRUCTION ) {
 			
 		} else if (State == STATE.SETUP){
@@ -187,6 +190,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		int y = e.getY();
 		
 		if (State == STATE.MAIN_MENU) {
+			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)){
+				State = STATE.GAME;
+			}
 		
 		} else if (State == STATE.INSTRUCTION) {
 
