@@ -7,11 +7,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
@@ -24,14 +19,28 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
 	private Game game;
-	
 	private Thread thread;
 	private JFrame frame;
 	private Renderer renderer;
+	private static Sound sound;
 	
 	public Connect4() {
 		
 	}
+	
+	public static synchronized void playSound() {
+		new Thread(
+	            new Runnable() {
+	                public void run() {
+	                    try {
+	                    	sound = new Sound();
+	                        sound.playBackgroundMusic();
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }).start();
+		}
 	
 	public void start() {
 		running = true;
@@ -52,7 +61,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	public void run() {
 		
 		init();
-		
 		long lastTime = System.nanoTime();
 		final double TARGET_FPS = 60.0;
 		final double ns = 1000000000.0 / TARGET_FPS; 
@@ -142,6 +150,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		frame.add(this);
 		frame.pack();
 		frame.setVisible(true);
+		
+		//PLAY BACKGROUND MUSIC
+		playSound();
 		
 		renderer = new Renderer(WIDTH, HEIGHT);
 		game = new Game();
