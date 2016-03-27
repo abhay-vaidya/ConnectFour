@@ -121,9 +121,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		if(State == STATE.MAIN_MENU){
 			screen.fill(0x8BC34A);
 			Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
-			screen.render(newGameBtn, (WIDTH-newGameBtn.width)/2, (HEIGHT-newGameBtn.height)/2);
+			screen.render(newGameBtn, (WIDTH-newGameBtn.width)/2, (HEIGHT-newGameBtn.height)/3);
+			Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
+			screen.render(instructionsBtn, (WIDTH-instructionsBtn.width)/2, (HEIGHT-instructionsBtn.height)/(3*2));
 			
 		} else if ( State == STATE.INSTRUCTION ) {
+			screen.fill(0xFFC107);
+			Art instructionsText = new Art("instructions.png", 900 ,800);
+			screen.render(instructionsText, 0, 0);
 			
 		} else if (State == STATE.SETUP){
 			screen.fill(0x009688);
@@ -199,7 +204,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		int y = e.getY();
 		
 		if (State == STATE.MAIN_MENU) {
-			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)){
+			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)){
 				State = STATE.SETUP;
 				PlayerSetupPanel input = new PlayerSetupPanel();
 				int option = JOptionPane.showConfirmDialog(null, input, "Player Information", JOptionPane.OK_CANCEL_OPTION);
@@ -217,6 +222,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 				} else if (option == JOptionPane.CANCEL_OPTION) {
 					State = State.MAIN_MENU;
 				}
+			}
+			
+			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/(3*2)) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/(3*2))){
+				System.out.println("Here");
+				State = STATE.INSTRUCTION;
 			}
 		
 		} else if (State == STATE.INSTRUCTION) {
