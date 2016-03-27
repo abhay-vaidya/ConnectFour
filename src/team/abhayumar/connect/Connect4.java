@@ -21,8 +21,12 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
-	private Renderer renderer;
+	private Screen screen;
 	private static Sound sound;
+	private static boolean isMainMenu;
+	private static boolean isSetup;
+	private static boolean isGameScreen;
+	private int x, y;
 	
 	public Connect4() {
 		
@@ -102,84 +106,58 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		Graphics g = bs.getDrawGraphics();
 		
 		// Draw objects
-		renderer.clear();
-		renderer.fill(0x2196F3);
+		screen.clear();
 		
-		// Draw the pieces
-		Art p1 = new Art("p1.png", 100 ,100);
-		Art p2 = new Art("p2.png", 100, 100);
-		for (int i=0; i<game.ROWS; i++) {
-			for (int j=0; j<game.COLUMNS; j++) {
-				if (game.getCell(i, j) == 1) {
-					renderer.render(p1, j*100+100, i*100+100);
+		if(isMainMenu){
+			screen.fill(0x8BC34A);
+		}
+		else if (isSetup){
+			
+		}
+		else if (isGameScreen){
+			screen.fill(0x2196F3);
+			
+			// Draw the pieces
+			Art p1 = new Art("p1.png", 100 ,100);
+			Art p2 = new Art("p2.png", 100, 100);
+			for (int i=0; i<game.ROWS; i++) {
+				for (int j=0; j<game.COLUMNS; j++) {
+					if (game.getCell(i, j) == 1) {
+						screen.render(p1, j*100+100, i*100+100);
+					}
+					else if (game.getCell(i, j) == 2){
+						screen.render(p2, j*100+100, i*100+100);
+					}
 				}
-				else if (game.getCell(i, j) == 2){
-					renderer.render(p2, j*100+100, i*100+100);
+			}
+			
+			// Render
+			g.drawImage(screen.image, 0, 0, WIDTH, HEIGHT, null);
+			// Draw grid
+			g.setColor(new Color(0x1976D2));
+			for (int i=0; i<8; i++) {
+				for (int j=0; j<7; j++) {
+					g.drawRect(100, 100, i*100, j*100);
 				}
 			}
 		}
 		
-		// Render
-		g.drawImage(renderer.image, 0, 0, WIDTH, HEIGHT, null);
-		// Draw grid
-		g.setColor(new Color(0x1976D2));
-		for (int i=0; i<8; i++) {
-			for (int j=0; j<7; j++) {
-				g.drawRect(100, 100, i*100, j*100);
-			}
-		}
 		g.dispose();
 		bs.show();
 	}
 	
 	public void update() {
-		// Game logic goes here
-	}
-	
-	public void init() {
-		setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		setSize(new Dimension(WIDTH, HEIGHT));
-		
-		frame = new JFrame(TITLE);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(WIDTH, HEIGHT);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-		frame.add(this);
-		frame.pack();
-		frame.setVisible(true);
-		
-		//PLAY BACKGROUND MUSIC
-		playSound();
-		
-		renderer = new Renderer(WIDTH, HEIGHT);
-		game = new Game();
-		game.runGame("Umar", "Abhay");
-		
-		addMouseListener(this);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
-		if (x >= 100 && x <= 800 && y >= 100 && y <=700){
-			int row = Math.round((y - 100)/ 100);
-			int column = Math.round((x - 100) / 100);
+		if (isMainMenu){
 			
-			/*  BOARD DEBUG CODE
-			for (int i=0; i<game.ROWS; i++) {
-				for (int j=0; j<game.COLUMNS; j++) {
-					System.out.print(game.getCell(i, j));
-				}
-				System.out.print('\n');
-			}
-			System.out.print('\n');
-			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
-			*/
+		}
+		else if (isSetup){
 			
+		}
+		else if (isGameScreen){
+			if (x >= 100 && x <= 800 && y >= 100 && y <=700){
+				int row = Math.round((y - 100)/ 100);
+				int column = Math.round((x - 100) / 100);
+				
 			int status = game.updateBoard(row, column);
 			if (status == 0) {
 				game.nextTurn();
@@ -192,8 +170,59 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 				game.clearBoard();
 				System.out.println("There is a draw!");
 			}
+			}
 		}
 	}
+	
+	public void init() {
+		setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setSize(new Dimension(WIDTH, HEIGHT));
+		
+		isMainMenu = true;
+		isSetup = false;
+		isGameScreen = false;
+		
+		frame = new JFrame(TITLE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(WIDTH, HEIGHT);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.add(this);
+		frame.pack();
+		frame.setVisible(true);
+		
+		//PLAY BACKGROUND MUSIC
+		// playSound();
+		
+		screen = new Screen(WIDTH, HEIGHT);
+		game = new Game();
+		game.runGame("Umar", "Abhay");
+		
+		addMouseListener(this);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		x = e.getX();
+		y = e.getY();
+	
+			
+			/*  BOARD DEBUG CODE
+			for (int i=0; i<game.ROWS; i++) {
+				for (int j=0; j<game.COLUMNS; j++) {
+					System.out.print(game.getCell(i, j));
+				}
+				System.out.print('\n');
+			}
+			System.out.print('\n');
+			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
+			*/
+			
+
+		}
+	
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
