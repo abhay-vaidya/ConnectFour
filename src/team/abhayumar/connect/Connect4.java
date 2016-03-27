@@ -26,7 +26,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static boolean isMainMenu;
 	private static boolean isSetup;
 	private static boolean isGameScreen;
-	private int x, y;
 	
 	public Connect4() {
 		
@@ -147,31 +146,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	}
 	
 	public void update() {
-		if (isMainMenu){
-			
-		}
-		else if (isSetup){
-			
-		}
-		else if (isGameScreen){
-			if (x >= 100 && x <= 800 && y >= 100 && y <=700){
-				int row = Math.round((y - 100)/ 100);
-				int column = Math.round((x - 100) / 100);
-				
-			int status = game.updateBoard(row, column);
-			if (status == 0) {
-				game.nextTurn();
-			}
-			if(game.hasWinner()){
-				game.clearBoard();
-				System.out.println(game.turn.getName() + " has won!");
-			}
-			else if (game.hasDraw()){
-				game.clearBoard();
-				System.out.println("There is a draw!");
-			}
-			}
-		}
+		//All animations
 	}
 	
 	public void init() {
@@ -180,9 +155,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setSize(new Dimension(WIDTH, HEIGHT));
 		
-		isMainMenu = false;
+		isMainMenu = true;
 		isSetup = false;
-		isGameScreen = true;
+		isGameScreen = false;
 		
 		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -205,23 +180,34 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		x = e.getX();
-		y = e.getY();
-	
-			
-			/*  BOARD DEBUG CODE
-			for (int i=0; i<game.ROWS; i++) {
-				for (int j=0; j<game.COLUMNS; j++) {
-					System.out.print(game.getCell(i, j));
-				}
-				System.out.print('\n');
-			}
-			System.out.print('\n');
-			System.out.println(String.valueOf(row) + " " + String.valueOf(column));
-			*/
+		int x = e.getX();
+		int y = e.getY();
+		
+		if (isMainMenu) {
 			
 
+		} else if (isSetup) {
+
+		} else if (isGameScreen) {
+			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
+				int row = Math.round((y - 100) / 100);
+				int column = Math.round((x - 100) / 100);
+
+				int status = game.updateBoard(row, column);
+				if (status == 0) {
+					game.nextTurn();
+				}
+				if (game.hasWinner()) {
+					game.clearBoard();
+					System.out.println(game.turn.getName() + " has won!");
+				} else if (game.hasDraw()) {
+					game.clearBoard();
+					System.out.println("There is a draw!");
+				}
+			}
 		}
+
+	}
 	
 
 	@Override
