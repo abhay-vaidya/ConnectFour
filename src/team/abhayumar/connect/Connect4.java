@@ -9,7 +9,11 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Connect4 extends Canvas implements Runnable, MouseListener {
@@ -122,6 +126,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		} else if ( State == STATE.INSTRUCTION ) {
 			
 		} else if (State == STATE.SETUP){
+			screen.fill(0x009688);
 			
 		} else if (State == STATE.GAME){
 			screen.fill(0x2196F3);
@@ -183,7 +188,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		screen = new Screen(WIDTH, HEIGHT);
 		game = new Game();
-		game.runGame("Umar", "Abhay");
+
 		
 		addMouseListener(this);
 	}
@@ -195,12 +200,18 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		
 		if (State == STATE.MAIN_MENU) {
 			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)){
-				State = STATE.GAME;
+				State = STATE.SETUP;
+				JOptionPane setup = new JOptionPane();
+				JPanel setupMenu = new JPanel();
+				JLabel playerOneName = JLabel();
+				String p1Name = setup.showInputDialog(null);
+				
+				game.runGame(p1Name, p2Name);
+				
 			}
 		
 		} else if (State == STATE.INSTRUCTION) {
 
-		} else if (State == STATE.SETUP) {
 
 		} else if (State == STATE.GAME) {
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
