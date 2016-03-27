@@ -201,13 +201,22 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		if (State == STATE.MAIN_MENU) {
 			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)){
 				State = STATE.SETUP;
-				JOptionPane setup = new JOptionPane();
-				JPanel setupMenu = new JPanel();
-				JLabel playerOneName = JLabel();
-				String p1Name = setup.showInputDialog(null);
+				PlayerSetupPanel input = new PlayerSetupPanel();
+				int option = JOptionPane.showConfirmDialog(null, input, "Player Information", JOptionPane.OK_CANCEL_OPTION);
 				
-				game.runGame(p1Name, p2Name);
-				
+				if (option == JOptionPane.OK_OPTION) {		
+					String p1Name = input.getPlayerOneName();
+					String p2Name = input.getPlayerTwoName();
+					if (p1Name.isEmpty() || p2Name.isEmpty()) {
+						JOptionPane.showMessageDialog(null,"Incomplete field");
+						State = State.MAIN_MENU;
+					} else {
+						game.runGame(p1Name, p2Name);
+						State = STATE.GAME;
+					}				
+				} else if (option == JOptionPane.CANCEL_OPTION) {
+					State = State.MAIN_MENU;
+				}
 			}
 		
 		} else if (State == STATE.INSTRUCTION) {
