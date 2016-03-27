@@ -24,11 +24,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
+	private static boolean pieceDropped = false;
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
 	private Screen screen;
-	private static Sound sound;
 	private enum STATE {
 			MAIN_MENU,
 			INSTRUCTION,
@@ -43,18 +43,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	}
 	
 	public static synchronized void playSound() {
-		new Thread(
-	            new Runnable() {
-	                public void run() {
-	                    try {
-	                    	sound = new Sound();
-	                        sound.playBackgroundMusic();
-	                    } catch (Exception e) {
-	                        e.printStackTrace();
-	                    }
-	                }
-	            }).start();
-		}
+		new Thread(new Sound){
 	
 	public void start() {
 		running = true;
@@ -119,7 +108,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		screen.clear();
 		
 		if(State == STATE.MAIN_MENU){
-			screen.fill(0x8BC34A);
+			screen.fill(0xFFC107);
 			Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
 			screen.render(newGameBtn, (WIDTH-newGameBtn.width)/2, (HEIGHT-newGameBtn.height)/3);
 			Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
@@ -189,7 +178,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		// playSound();
+		playSound();
 		
 		screen = new Screen(WIDTH, HEIGHT);
 		game = new Game();
@@ -198,6 +187,25 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		addMouseListener(this);
 	}
 
+	private void setupDialog(){
+		PlayerSetupPanel input = new PlayerSetupPanel();
+		int option = JOptionPane.showConfirmDialog(null, input, "Player Information", JOptionPane.OK_CANCEL_OPTION);
+		
+		if (option == JOptionPane.OK_OPTION) {		
+			String p1Name = input.getPlayerOneName();
+			String p2Name = input.getPlayerTwoName();
+			if (p1Name.isEmpty() || p2Name.isEmpty()) {
+				JOptionPane.showMessageDialog(null,"Incomplete field");
+				State = State.MAIN_MENU;
+			} else {
+				game.runGame(p1Name, p2Name);
+				State = STATE.GAME;
+			}				
+		} else if (option == JOptionPane.CANCEL_OPTION) {
+			State = State.MAIN_MENU;
+		}
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
@@ -206,31 +214,21 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		if (State == STATE.MAIN_MENU) {
 			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)){
 				State = STATE.SETUP;
-				PlayerSetupPanel input = new PlayerSetupPanel();
-				int option = JOptionPane.showConfirmDialog(null, input, "Player Information", JOptionPane.OK_CANCEL_OPTION);
-				
-				if (option == JOptionPane.OK_OPTION) {		
-					String p1Name = input.getPlayerOneName();
-					String p2Name = input.getPlayerTwoName();
-					if (p1Name.isEmpty() || p2Name.isEmpty()) {
-						JOptionPane.showMessageDialog(null,"Incomplete field");
-						State = State.MAIN_MENU;
-					} else {
-						game.runGame(p1Name, p2Name);
-						State = STATE.GAME;
-					}				
-				} else if (option == JOptionPane.CANCEL_OPTION) {
-					State = State.MAIN_MENU;
-				}
+				setupDialog();
 			}
 			
-			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/(3*2)) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/(3*2))){
-				System.out.println("Here");
+			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT/6)-100/3) && x < ((WIDTH+300)/2) && y < (HEIGHT/6)+100/3){
 				State = STATE.INSTRUCTION;
 			}
 		
 		} else if (State == STATE.INSTRUCTION) {
-
+			if (x > 35 && y > 45 && x < 140 && y < 85){
+				State = STATE.MAIN_MENU;
+			}
+			else if (x > 625 && y > 45 && x < 865 && y < 85){
+				State = STATE.SETUP;
+				setupDialog();
+			}
 
 		} else if (State == STATE.GAME) {
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
@@ -239,12 +237,16 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 
 				int status = game.updateBoard(row, column);
 				if (status == 0) {
+					Connect4.pieceDropped = true;
 					game.nextTurn();
+					
 				}
 				if (game.hasWinner()) {
+					State = STATE.MAIN_MENU;
 					game.clearBoard();
 					System.out.println(game.turn.getName() + " has won!");
 				} else if (game.hasDraw()) {
+					State = STATE.MAIN_MENU;
 					game.clearBoard();
 					System.out.println("There is a draw!");
 				}
