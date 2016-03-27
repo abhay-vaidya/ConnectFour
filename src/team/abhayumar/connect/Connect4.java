@@ -125,6 +125,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 			screen.fill(0x2196F3);
 			
 			// Draw the pieces
+			Art bg = new Art("gameboard.png", 768, 680);
+			screen.render(bg, (WIDTH-bg.width)/2, (HEIGHT-bg.height)/2);
 			Art p1 = new Art("p1.png", 100 ,100);
 			Art p2 = new Art("p2.png", 100, 100);
 			for (int i=0; i<game.ROWS; i++) {
