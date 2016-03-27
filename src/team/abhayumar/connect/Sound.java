@@ -12,17 +12,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound implements Runnable{
 	
-	private static Clip bgMusic;
-	private static Clip pieceSound;
-
+	private Clip clip;
+	private Thread thread;
 	   
-	public Sound(){
+	public Sound(String path){
+				
 		try {
-			bgMusic = AudioSystem.getClip();
-			bgMusic.open(AudioSystem.getAudioInputStream(new File("test.wav")));
-			pieceSound = AudioSystem.getClip();
-			pieceSound.open(AudioSystem.getAudioInputStream(new File("drop.wav")));
-			
+			clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(new File(path)));			
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,41 +30,20 @@ public class Sound implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		thread = new Thread(this);
+		thread.start();
 	}
 	
-	public static void playBackgroundMusic() {
-		  try {
-
-		   bgMusic.start();
-		   Thread.sleep(bgMusic.getMicrosecondLength());
-		  } catch (Exception e) {
-		   System.err.println(e.getMessage());
-		  }
-	}
-	
-	public static void playPiece() {
-		try {
-			pieceSound.start();
-			Thread.sleep(pieceSound.getMicrosecondLength());
-
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-	}
 
 	@Override
 	public void run() {
 		try {
-            Sound.playBackgroundMusic();
-            
-            if (Connect4.pieceDropped){
-            	System.out.println("HERE");
-            	Sound.playPiece();
-            	pieceDropped = false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			clip.start();
+			//Thread.sleep(clip.getMicrosecondLength());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	

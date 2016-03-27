@@ -24,7 +24,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
-	private static boolean pieceDropped = false;
+	public static volatile boolean pieceDropped = false;
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
@@ -41,9 +41,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 	public Connect4() {
 		
 	}
-	
-	public static synchronized void playSound() {
-		new Thread(new Sound){
 	
 	public void start() {
 		running = true;
@@ -178,7 +175,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		playSound();
+		new Sound("test.wav");
+		//System.out.println("This is a test");
 		
 		screen = new Screen(WIDTH, HEIGHT);
 		game = new Game();
@@ -237,9 +235,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener {
 
 				int status = game.updateBoard(row, column);
 				if (status == 0) {
-					Connect4.pieceDropped = true;
-					game.nextTurn();
-					
+					new Sound("drop.wav");
+					game.nextTurn();					
 				}
 				if (game.hasWinner()) {
 					State = STATE.MAIN_MENU;
