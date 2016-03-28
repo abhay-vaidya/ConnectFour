@@ -30,13 +30,20 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Thread thread;
 	private JFrame frame;
 	private Screen screen;
+	private enum OUTCOME{
+		WINNER_P1,
+		WINNER_P2,
+		DRAW
+	}
 	private enum STATE {
 			MAIN_MENU,
 			INSTRUCTION,
 			SETUP,
 			GAME,
+			WINNER
 	};
 	private STATE State;
+	private OUTCOME Outcome;
 	private Sound bgMusic;
 	
 	private Art p1 = new Art("p1.png", 100 ,100);
@@ -48,6 +55,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
 	private Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
 	private Art instructionsText = new Art("instructions.png", 900 ,800);
+	private Art winnerp1 = new Art("winnerp1.png", 900 ,800);
+	private Art winnerp2 = new Art("winnerp2.png", 900 ,800);
+	private Art draw = new Art("draw.png", 900 ,800);
+	
 	private Art volumeOn = new Art("volumeOn.png", 48, 48);
 	private Art volumeOff = new Art("volumeOff.png", 48, 48);
 	private boolean isVolumeOn = true;
@@ -137,7 +148,19 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		} else if (State == STATE.SETUP) {
 			screen.fill(0x009688);
 			
-		} else if (State == STATE.GAME) {
+		} else if (State == STATE.WINNER){
+			if (Outcome == OUTCOME.WINNER_P1){
+				screen.render(winnerp1, 0, 0);
+			}
+			else if (Outcome == OUTCOME.WINNER_P2){
+				screen.render(winnerp2, 0, 0);
+			}
+			else if (Outcome == OUTCOME.DRAW){
+				screen.render(draw, 0, 0);
+			}
+		}	
+		
+		else if (State == STATE.GAME) {
 			screen.fill(0x2196F3);
 
 			// Draw the pieces
@@ -276,22 +299,41 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 
 				int status = game.updateBoard(row, column);
 				
-				if (status == 0) {
+				if (game.hasWinner()) {
+					State = STATE.WINNER;
+					
+					if (game.turn.getID() == 1){
+						Outcome = OUTCOME.WINNER_P1;
+					}
+					else if (game.turn.getID() == 2){
+						Outcome = OUTCOME.WINNER_P2;
+					}
+					
+					game.clearBoard();
+					
+				} else if (game.hasDraw()) {
+					State = STATE.WINNER;
+					Outcome = OUTCOME.DRAW;
+					game.clearBoard();
+				}
+				
+				else if (status == 0) {
 					new Sound("drop.wav", false);
 					game.nextTurn();					
 				}
-				if (game.hasWinner()) {
-					State = STATE.MAIN_MENU;
-					game.clearBoard();
-					System.out.println(game.turn.getName() + " has won!");
-				} else if (game.hasDraw()) {
-					State = STATE.MAIN_MENU;
-					game.clearBoard();
-					System.out.println("There is a draw!");
-				}
+
 			}
 		}
-
+		
+		else if (State == STATE.WINNER){
+			if (x > 110 && y > 560 && x < 300 && y < 680){
+				State = STATE.MAIN_MENU;
+			}
+			else if (x > 500 && y > 600 && x < 790 && y < 650){
+				State = STATE.GAME;
+				game.clearBoard();
+			}
+		}
 	}
 	
 
