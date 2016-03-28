@@ -36,11 +36,11 @@ public class Bitmap {
 		int widthResult = xEnd - xStart;
 		
 		// Retrieve color data
-		for (int i=yStart; i<yEnd; i++) {  // Rows
+		for (int i=yStart; i<yEnd; ++i) {  // Rows
 			int tp = i * this.width + xStart;
 			int sp = (i - y) * bmp.width + (xStart - x);
 			tp -= sp;
-			for(int j=sp; j<sp + widthResult; j++) {  // Columns
+			for(int j=sp; j<sp + widthResult; ++j) {  // Columns
 				int color = bmp.pixels[j];
 				if (color < 0) pixels[tp + j] = color;
 			}
