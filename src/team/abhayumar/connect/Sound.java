@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -14,12 +15,16 @@ public class Sound implements Runnable{
 	
 	private Clip clip;
 	private Thread thread;
-	   
+	private Float volume = -10.0f;
+   
 	public Sound(String path){
 				
 		try {
 			clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(new File(path)));			
+			clip.open(AudioSystem.getAudioInputStream(new File(path)));
+			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(volume);
+
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,13 +40,22 @@ public class Sound implements Runnable{
 		thread.start();
 	}
 	
-
+	public void toggleVolume(){
+		if (volume == -10.0f){
+			volume = -80.0f;
+		}
+		else if (volume == -80.0f){
+			volume = -10.0f;
+		}
+		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		gainControl.setValue(volume);
+	}
+	
 	@Override
 	public void run() {
 		try {
 			clip.start();
 			thread.join();
-			//Thread.sleep(clip.getMicrosecondLength());
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}

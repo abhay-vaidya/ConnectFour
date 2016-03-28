@@ -37,6 +37,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			GAME,
 	};
 	private STATE State;
+	private Sound bgMusic;
 	
 	private Art p1 = new Art("p1.png", 100 ,100);
 	private Art p2 = new Art("p2.png", 100, 100);
@@ -47,7 +48,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
 	private Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
 	private Art instructionsText = new Art("instructions.png", 900 ,800);
-	
+	private Art volumeOn = new Art("volumeOn.png", 48, 48);
+	private Art volumeOff = new Art("volumeOff.png", 48, 48);
+	private boolean isVolumeOn = true;
 	
 	public Connect4() {
 		
@@ -115,7 +118,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		screen.clear();
 
 		if (State == STATE.MAIN_MENU) {
+			
 			screen.fill(0xFFC107);
+			if (isVolumeOn){
+				screen.render(volumeOn, 827, 27);
+			} else {
+				screen.render(volumeOff, 827, 27);
+			}
+			
 			screen.render(newGameBtn, (WIDTH - newGameBtn.width) / 2, (HEIGHT - newGameBtn.height) / 3);
 			screen.render(instructionsBtn, (WIDTH - instructionsBtn.width) / 2,
 					(HEIGHT - instructionsBtn.height) / (3 * 2));
@@ -142,6 +152,12 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 
 			if (highlightColumn != -1) {
 				screen.render(highlight, highlightColumn * 100 + 100, 100);
+			}
+			
+			if (isVolumeOn){
+				screen.render(volumeOn, 827, 27);
+			} else {
+				screen.render(volumeOff, 827, 27);
 			}
 
 			for (int i = 0; i < game.ROWS; i++) {
@@ -183,7 +199,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		new Sound("test.wav");
+		bgMusic = new Sound("test.wav");
 		//System.out.println("This is a test");
 		
 		screen = new Screen(WIDTH, HEIGHT);
@@ -219,11 +235,18 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		int y = e.getY();
 		
 		if (State == STATE.MAIN_MENU) {
+			if (x > 827 && y > 27 && x < 875 && y < 75){
+				bgMusic.toggleVolume();
+				if (isVolumeOn){
+				isVolumeOn = false;
+				} else{
+					isVolumeOn = true;
+				}
+			}
 			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)){
 				State = STATE.SETUP;
 				setupDialog();
 			}
-			
 			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT/6)-100/3) && x < ((WIDTH+300)/2) && y < (HEIGHT/6)+100/3){
 				State = STATE.INSTRUCTION;
 			}
@@ -238,11 +261,21 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 
 		} else if (State == STATE.GAME) {
+			if (x > 827 && y > 27 && x < 875 && y < 75){
+				bgMusic.toggleVolume();
+				if (isVolumeOn){
+				isVolumeOn = false;
+				} else{
+					isVolumeOn = true;
+				}
+			}
+			
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
 				int row = Math.round((y - 100) / 100);
 				int column = Math.round((x - 100) / 100);
 
 				int status = game.updateBoard(row, column);
+				
 				if (status == 0) {
 					new Sound("drop.wav");
 					game.nextTurn();					
