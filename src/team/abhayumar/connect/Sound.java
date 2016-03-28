@@ -40,10 +40,12 @@ public class Sound implements Runnable{
 	public void run() {
 		try {
 			clip.start();
+			thread.join();
 			//Thread.sleep(clip.getMicrosecondLength());
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
+
 	}
 	
 	
