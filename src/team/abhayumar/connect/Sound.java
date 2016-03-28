@@ -10,52 +10,47 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+public class Sound implements Runnable {
 
-public class Sound implements Runnable{
-	
 	private Clip clip;
 	private Thread thread;
 	private Float volume = -10.0f;
-   
-	public Sound(String path, boolean loop){
-				
+
+	public Sound(String path, boolean loop) {
+
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(new File(path)));
-			
-			if (loop = true){
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+			if (loop == true) {
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
-			
+
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(volume);
 
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		thread = new Thread(this);
 		thread.start();
 	}
-	
-	public void toggleVolume(){
-		if (volume == -10.0f){
+
+	public void toggleVolume() {
+		if (volume == -10.0f) {
 			volume = -80.0f;
-		}
-		else if (volume == -80.0f){
+		} else if (volume == -80.0f) {
 			volume = -10.0f;
 		}
 		FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl.setValue(volume);
 	}
-	
+
 	@Override
 	public void run() {
 		try {
