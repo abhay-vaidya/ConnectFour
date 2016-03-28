@@ -267,18 +267,22 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				}
 			}
 			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3)+150 && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)+150){
+				new Sound("res/drop.wav", false);
 				State = STATE.SETUP;
 				setupDialog();
 			}
 			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2)+150 && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)+150){
+				new Sound("res/drop.wav", false);
 				State = STATE.INSTRUCTION;
 			}
 		
 		} else if (State == STATE.INSTRUCTION) {
 			if (x > 35 && y > 45 && x < 140 && y < 85){
+				new Sound("res/drop.wav", false);
 				State = STATE.MAIN_MENU;
 			}
 			else if (x > 625 && y > 45 && x < 865 && y < 85){
+				new Sound("res/drop.wav", false);
 				State = STATE.SETUP;
 				setupDialog();
 			}
