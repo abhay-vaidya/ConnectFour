@@ -199,7 +199,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		bgMusic = new Sound("test.wav");
+		bgMusic = new Sound("test.wav", true);
 		//System.out.println("This is a test");
 		
 		screen = new Screen(WIDTH, HEIGHT);
@@ -277,7 +277,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				int status = game.updateBoard(row, column);
 				
 				if (status == 0) {
-					new Sound("drop.wav");
+					new Sound("drop.wav", false);
 					game.nextTurn();					
 				}
 				if (game.hasWinner()) {

@@ -17,11 +17,16 @@ public class Sound implements Runnable{
 	private Thread thread;
 	private Float volume = -10.0f;
    
-	public Sound(String path){
+	public Sound(String path, boolean loop){
 				
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(new File(path)));
+			
+			if (loop = true){
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+			
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(volume);
 
@@ -59,8 +64,5 @@ public class Sound implements Runnable{
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-
 	}
-	
-	
 }
