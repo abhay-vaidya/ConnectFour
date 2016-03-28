@@ -46,21 +46,21 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private OUTCOME Outcome;
 	private Sound bgMusic;
 	
-	private Art p1 = new Art("p1.png", 100 ,100);
-	private Art p2 = new Art("p2.png", 100, 100);
-	private Art bg = new Art("gameboard.png", 768, 680);
-	private Art highlight = new Art("highlight.png", 100, 600);
-	private Art turnP1 = new Art("turnP1.png", 100, 60);
-	private Art turnP2 = new Art("turnP2.png", 100, 60);
-	private Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
-	private Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
-	private Art instructionsText = new Art("instructions.png", 900 ,800);
-	private Art winnerp1 = new Art("winnerp1.png", 900 ,800);
-	private Art winnerp2 = new Art("winnerp2.png", 900 ,800);
-	private Art draw = new Art("draw.png", 900 ,800);
+	private Art p1 = new Art("res/p1.png", 100 ,100);
+	private Art p2 = new Art("res/p2.png", 100, 100);
+	private Art bg = new Art("res/gameboard.png", 768, 680);
+	private Art highlight = new Art("res/highlight.png", 100, 600);
+	private Art turnP1 = new Art("res/turnP1.png", 100, 60);
+	private Art turnP2 = new Art("res/turnP2.png", 100, 60);
+	private Art newGameBtn = new Art("res/newgamebutton.png", 300 ,100);
+	private Art instructionsBtn = new Art("res/instructionsbutton.png", 300 ,100);
+	private Art instructionsText = new Art("res/instructions.png", 900 ,800);
+	private Art winnerp1 = new Art("res/winnerp1.png", 900 ,800);
+	private Art winnerp2 = new Art("res/winnerp2.png", 900 ,800);
+	private Art draw = new Art("res/draw.png", 900 ,800);
 	
-	private Art volumeOn = new Art("volumeOn.png", 48, 48);
-	private Art volumeOff = new Art("volumeOff.png", 48, 48);
+	private Art volumeOn = new Art("res/volumeOn.png", 48, 48);
+	private Art volumeOff = new Art("res/volumeOff.png", 48, 48);
 	private boolean isVolumeOn = true;
 	
 	public Connect4() {
@@ -222,8 +222,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		bgMusic = new Sound("test.wav", true);
-		//System.out.println("This is a test");
+		bgMusic = new Sound("res/test.wav", true);
 		
 		screen = new Screen(WIDTH, HEIGHT);
 		game = new Game();
@@ -318,7 +317,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				}
 				
 				else if (status == 0) {
-					new Sound("drop.wav", false);
+					new Sound("res/drop.wav", false);
 					game.nextTurn();					
 				}
 
