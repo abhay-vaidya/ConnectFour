@@ -58,9 +58,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art winnerp1 = new Art("res/winnerp1.png", 900 ,800);
 	private Art winnerp2 = new Art("res/winnerp2.png", 900 ,800);
 	private Art draw = new Art("res/draw.png", 900 ,800);
-	
+	private Art logo = new Art("res/Logo.png", 765, 206);
 	private Art volumeOn = new Art("res/volumeOn.png", 48, 48);
 	private Art volumeOff = new Art("res/volumeOff.png", 48, 48);
+	private Art nameCredit = new Art("res/namecredit.png", 493, 41);
 	private boolean isVolumeOn = true;
 	
 	public Connect4() {
@@ -136,10 +137,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			} else {
 				screen.render(volumeOff, 827, 27);
 			}
-			
-			screen.render(newGameBtn, (WIDTH - newGameBtn.width) / 2, (HEIGHT - newGameBtn.height) / 3);
-			screen.render(instructionsBtn, (WIDTH - instructionsBtn.width) / 2,
-					(HEIGHT - instructionsBtn.height) / (3 * 2));
+			screen.render(logo, (WIDTH - logo.width)/2, 100);
+			screen.render(nameCredit, (WIDTH - nameCredit.width)/2, 700);
+			screen.render(newGameBtn, (WIDTH - newGameBtn.width) / 2, ((HEIGHT - newGameBtn.height) / 3)+150);
+			screen.render(instructionsBtn, (WIDTH - instructionsBtn.width) / 2, ((HEIGHT - instructionsBtn.height) / 2)+150);
 
 		} else if (State == STATE.INSTRUCTION) {
 			screen.fill(0xFFC107);
@@ -265,11 +266,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					isVolumeOn = true;
 				}
 			}
-			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3) && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)){
+			if(x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/3)+150 && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/3)+150){
 				State = STATE.SETUP;
 				setupDialog();
 			}
-			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT/6)-100/3) && x < ((WIDTH+300)/2) && y < (HEIGHT/6)+100/3){
+			else if (x > ((WIDTH-300)/2) && y > ((HEIGHT-100)/2)+150 && x < ((WIDTH+300)/2) && y < ((HEIGHT+100)/2)+150){
 				State = STATE.INSTRUCTION;
 			}
 		
