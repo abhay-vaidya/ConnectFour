@@ -38,6 +38,16 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	};
 	private STATE State;
 	
+	private Art p1 = new Art("p1.png", 100 ,100);
+	private Art p2 = new Art("p2.png", 100, 100);
+	private Art bg = new Art("gameboard.png", 768, 680);
+	private Art highlight = new Art("highlight.png", 100, 600);
+	private Art turnP1 = new Art("turnP1.png", 100, 60);
+	private Art turnP2 = new Art("turnP2.png", 100, 60);
+	private Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
+	private Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
+	private Art instructionsText = new Art("instructions.png", 900 ,800);
+	
 	
 	public Connect4() {
 		
@@ -94,73 +104,63 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
-		if (bs == null){
+		if (bs == null) {
 			createBufferStrategy(3);
-			requestFocus();  // VERY IMPORTANT
+			requestFocus(); // VERY IMPORTANT
 			return;
 		}
-		
 		Graphics g = bs.getDrawGraphics();
-		
+
 		// Draw objects
 		screen.clear();
-		
-		if(State == STATE.MAIN_MENU){
+
+		if (State == STATE.MAIN_MENU) {
 			screen.fill(0xFFC107);
-			Art newGameBtn = new Art("newgamebutton.png", 300 ,100);
-			screen.render(newGameBtn, (WIDTH-newGameBtn.width)/2, (HEIGHT-newGameBtn.height)/3);
-			Art instructionsBtn = new Art("instructionsbutton.png", 300 ,100);
-			screen.render(instructionsBtn, (WIDTH-instructionsBtn.width)/2, (HEIGHT-instructionsBtn.height)/(3*2));
-			
-		} else if ( State == STATE.INSTRUCTION ) {
+			screen.render(newGameBtn, (WIDTH - newGameBtn.width) / 2, (HEIGHT - newGameBtn.height) / 3);
+			screen.render(instructionsBtn, (WIDTH - instructionsBtn.width) / 2,
+					(HEIGHT - instructionsBtn.height) / (3 * 2));
+
+		} else if (State == STATE.INSTRUCTION) {
 			screen.fill(0xFFC107);
-			Art instructionsText = new Art("instructions.png", 900 ,800);
 			screen.render(instructionsText, 0, 0);
-			
-		} else if (State == STATE.SETUP){
+
+		} else if (State == STATE.SETUP) {
 			screen.fill(0x009688);
 			
-		} else if (State == STATE.GAME){
+		} else if (State == STATE.GAME) {
 			screen.fill(0x2196F3);
-			
+
 			// Draw the pieces
-			Art bg = new Art("gameboard.png", 768, 680);
-			Art highlight = new Art("highlight.png", 100, 600);
-			screen.render(bg, (WIDTH-bg.width)/2, (HEIGHT-bg.height)/2);
-			Art p1 = new Art("p1.png", 100 ,100);
-			Art p2 = new Art("p2.png", 100, 100);
-			
-			if (highlightColumn != -1){
-				screen.render(highlight, highlightColumn*100+100, 100);
+			screen.render(bg, (WIDTH - bg.width) / 2, (HEIGHT - bg.height) / 2);
+			if (game.turn.getID() == 1) {
+				screen.render(turnP1, 0, 0);
 			}
-			
-			for (int i=0; i<game.ROWS; i++) {
-				for (int j=0; j<game.COLUMNS; j++) {
+
+			else if (game.turn.getID() == 2) {
+				screen.render(turnP2, 0, 0);
+			}
+
+			if (highlightColumn != -1) {
+				screen.render(highlight, highlightColumn * 100 + 100, 100);
+			}
+
+			for (int i = 0; i < game.ROWS; i++) {
+				for (int j = 0; j < game.COLUMNS; j++) {
 					if (game.getCell(i, j) == 1) {
-						screen.render(p1, j*100+100, i*100+100);
-					}
-					else if (game.getCell(i, j) == 2){
-						screen.render(p2, j*100+100, i*100+100);
+						screen.render(p1, j * 100 + 100, i * 100 + 100);
+					} else if (game.getCell(i, j) == 2) {
+						screen.render(p2, j * 100 + 100, i * 100 + 100);
 					}
 				}
 			}
-
 		}
-		
+
 		// Render
 		g.drawImage(screen.image, 0, 0, WIDTH, HEIGHT, null);
-//		// Draw grid
-//		g.setColor(new Color(0x1976D2));
-//		for (int i=0; i<8; i++) {
-//			for (int j=0; j<7; j++) {
-//				g.drawRect(100, 100, i*100, j*100);
-//			}
-//		}
-		
 		g.dispose();
 		bs.show();
 	}
-	
+
 	public void update() {
 		//All animations
 	}
