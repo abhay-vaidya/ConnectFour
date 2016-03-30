@@ -13,6 +13,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -62,6 +63,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art volumeOn = new Art("res/volumeOn.png", 48, 48);
 	private Art volumeOff = new Art("res/volumeOff.png", 48, 48);
 	private Art nameCredit = new Art("res/namecredit.png", 493, 41);
+	private Art home = new Art("res/home.png", 48, 48);
+	private Art restart = new Art("res/restart.png", 48, 48);
+	
 	private boolean isVolumeOn = true;
 	
 	public Connect4() {
@@ -133,9 +137,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			screen.fill(0xFFC107);
 			if (isVolumeOn){
-				screen.render(volumeOn, 827, 27);
+				screen.render(volumeOn, 827, 20);
 			} else {
-				screen.render(volumeOff, 827, 27);
+				screen.render(volumeOff, 827, 20);
 			}
 			screen.render(logo, (WIDTH - logo.width)/2, 100);
 			screen.render(nameCredit, (WIDTH - nameCredit.width)/2, 700);
@@ -179,10 +183,16 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 			
 			if (isVolumeOn){
-				screen.render(volumeOn, 827, 27);
+				screen.render(volumeOn, 827, 20);
 			} else {
-				screen.render(volumeOff, 827, 27);
+				screen.render(volumeOff, 827, 20);
 			}
+			
+			// Home Icon
+			screen.render(home, 760, 20);
+			
+			// Restart Icon
+			screen.render(restart, 693, 20);
 
 			for (int i = 0; i < game.ROWS; i++) {
 				for (int j = 0; j < game.COLUMNS; j++) {
@@ -258,7 +268,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		int y = e.getY();
 		
 		if (State == STATE.MAIN_MENU) {
-			if (x > 827 && y > 27 && x < 875 && y < 75){
+			if (x > 827 && y > 20 && x < 875 && y < 68){
 				bgMusic.toggleVolume();
 				if (isVolumeOn){
 				isVolumeOn = false;
@@ -288,12 +298,35 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 
 		} else if (State == STATE.GAME) {
-			if (x > 827 && y > 27 && x < 875 && y < 75){
+			
+			// Volume toggle
+			if (x > 827 && y > 20 && x < 875 && y < 68){
 				bgMusic.toggleVolume();
 				if (isVolumeOn){
 				isVolumeOn = false;
 				} else{
 					isVolumeOn = true;
+				}
+			}
+			
+			// Main menu link
+			if (x > 760 && y > 20 && x < 808 && y < 68){
+				
+				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Quit Game", JOptionPane.OK_CANCEL_OPTION);
+				
+				if ( option == JOptionPane.OK_OPTION ) {
+					game.clearBoard();
+					State = STATE.MAIN_MENU;
+				}
+			}
+			
+			// Restart game link
+			if (x > 693 && y > 20 && x < 741 && y < 68){
+				
+				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Restart Game", JOptionPane.OK_CANCEL_OPTION);
+				
+				if ( option == JOptionPane.OK_OPTION ) {
+					game.clearBoard();
 				}
 			}
 			
@@ -304,6 +337,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				int status = game.updateBoard(row, column);
 				
 				if (game.hasWinner()) {
+					
+					// Pause game 
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					
 					State = STATE.WINNER;
 					
 					if (game.turn.getID() == 1){
@@ -342,33 +383,19 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseDragged(MouseEvent e) {}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
