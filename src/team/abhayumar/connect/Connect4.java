@@ -26,6 +26,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private static int BOARD_HEIGHT = 600;
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
+	private boolean isVolumeOn = true;
 	private static int highlightColumn = -1;
 	private Game game;
 	private Thread thread;
@@ -66,7 +67,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art home = new Art("res/home.png", 48, 48);
 	private Art restart = new Art("res/restart.png", 48, 48);
 	
-	private boolean isVolumeOn = true;
+	
 	
 	public Connect4() {
 		
