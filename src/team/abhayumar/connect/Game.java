@@ -10,7 +10,8 @@ public class Game {
 	// Initialize variables
 	private Player playerOne;
 	private Player playerTwo;
-	public Player turn = playerOne;
+	public Player turn;
+	int lowestRow;
 	public static final int ROWS = 6;
 	public static final int COLUMNS = 7;
 	private int board[][] = new int[ROWS][COLUMNS];
@@ -48,12 +49,13 @@ public class Game {
 	public void runGame(String p1, String p2){
 		createPlayer(1, p1);
 		createPlayer(2, p2);
+		turn = playerOne;
 	}
 	
 	/**
 	 * Fills board array with zero/unoccupied values
 	 */
-	public void initializeBoard(){
+	public void clearBoard(){
 		for (int i = 0; i < ROWS; i++){
 			for (int j = 0; j < COLUMNS; j++){
 				board[i][j] = 0;
@@ -67,8 +69,18 @@ public class Game {
 	 * @param col - Column value
 	 * @param player - Player to be entered
 	 */
-	public void updateBoard(int row, int col, Player player){
-		board[row][col] = player.getID();
+	public int updateBoard(int row, int col){
+		lowestRow = 0;
+		for (int i = 0; i < ROWS; i++){
+			if (board[i][col] == 0){
+				lowestRow = i;
+			}
+		}
+		if (board[lowestRow][col] == 0){
+			board[lowestRow][col] = turn.getID();
+			return 0;
+		}
+		return -1;
 	}
 	
 	/**
@@ -81,6 +93,21 @@ public class Game {
 		else if (turn.equals(playerTwo)){
 			turn = playerOne;
 		}
+	}
+	
+	public boolean hasDraw(){
+		int counter = 0;
+		for (int i = 0; i < ROWS; i++){
+			for (int j = 0; j < COLUMNS; j++){
+				if (board[i][j] != 0){
+					counter++;
+				}
+			}
+		}
+		if (counter == ROWS*COLUMNS && !hasWinner()){
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -113,23 +140,23 @@ public class Game {
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i <= 2){
+		    	if (board[i][j] == 1 && j >= 4 && i <= 2){
 		    		if(board[i+1][j-1] == 1 && board[i+2][j-2] == 1 && board[i+3][j-3] == 1){
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j <= 3 && i >= 3){
+		    	if (board[i][j] == 1 && j <= 3 && i >= 3){
 		    		if(board[i-1][j+1] == 1 && board[i-2][j+2] == 1 && board[i-3][j+3] == 1){
 		    			winner = true;
 		    		}
 		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i >= 3){
+		    	if (board[i][j] == 1 && j >= 4 && i >= 3){
 		    		if(board[i-1][j-1] == 1 && board[i-2][j-2] == 1 && board[i-3][j-3] == 1){
 		    			winner = true;
 		    		}
 		    	}
 		    	
-			// Check PLAYER TWO
+                // Check PLAYER TWO
 	    		// Check horizontal
 		    	if (board[i][j] == 2 && j < 4){
 		    		if(board[i][j+1] == 2 && board[i][j+2] == 2 && board[i][j+3] == 2){
@@ -169,7 +196,16 @@ public class Game {
 		}
 		return winner;
 	}
+	
+	/**
+	 * The status of a board cell at the inputted row and column
+	 * @param r - the row
+	 * @param c - the column
+	 * @return - the status
+	 */
+	public int getCell(int r, int c) {
+		return board[r][c];
+	}
 }
 	
 	
-
