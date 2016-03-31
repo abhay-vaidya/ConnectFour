@@ -156,7 +156,7 @@ public class Game {
 		    		}
 		    	}
 		    	
-			// Check PLAYER TWO
+                // Check PLAYER TWO
 	    		// Check horizontal
 		    	if (board[i][j] == 2 && j < 4){
 		    		if(board[i][j+1] == 2 && board[i][j+2] == 2 && board[i][j+3] == 2){
