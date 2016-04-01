@@ -6,7 +6,7 @@ public class Animation extends Art {
 	private int curY;
 	private int endY;
 	private double velocity = 0;
-	private int gravity = 1;
+	private double gravity = 1;
 	
 	public Animation(String path, int w, int h, int startX, int startY, int endX, int endY) {
 		super(path,w,h);
@@ -24,7 +24,7 @@ public class Animation extends Art {
 			curY = tempY;
 			velocity += gravity;
 		} else {
-			gravity /= 6;
+			curY = endY;
 		}
 	}
 	
