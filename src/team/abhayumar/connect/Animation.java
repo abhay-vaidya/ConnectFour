@@ -1,15 +1,16 @@
 package team.abhayumar.connect;
 
-public class Animation extends Art {
+public class Animation {
 	
 	private int curX;
 	private int curY;
 	private int endY;
 	private double velocity = 0;
 	private double gravity = 1;
+	private Art art;
 	
-	public Animation(String path, int w, int h, int startX, int startY, int endX, int endY) {
-		super(path,w,h);
+	public Animation(Art art, int startX, int startY, int endX, int endY) {
+		this.art = art;
 		this.curX = startX;
 		this.curY = startY;
 		this.endY = endY;
@@ -34,6 +35,10 @@ public class Animation extends Art {
 	
 	public int getY() {
 		return this.curY;
+	}
+
+	public Art getArt() {
+		return this.art;
 	}
 
 }
