@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -55,6 +56,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	
 	private Art p1 = new Art("res/p1.png", 100 ,100);
 	private Art p2 = new Art("res/p2.png", 100, 100);
+	
+	//private ArrayList<Animation> pieces = new ArrayList<Animation>();
+	
+	private Animation testPiece = new Animation("res/p1.png", 100, 100, 100, 100, 100, 600);
+	
 	private Art bg = new Art("res/gameboard.png", 768, 680);
 	private Art highlight = new Art("res/highlight.png", 100, 600);
 	private Art turnP1 = new Art("res/turnP1.png", 100, 60);
@@ -210,13 +216,17 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			for (int i = 0; i < game.ROWS; i++) {
 				for (int j = 0; j < game.COLUMNS; j++) {
 					if (game.getCell(i, j) == 1) {
+						//n=0;
 						screen.render(p1, j * 100 + 100, i * 100 + 100);
 					} else if (game.getCell(i, j) == 2) {
+						//n=0;
 						screen.render(p2, j * 100 + 100, i * 100 + 100);
 					}
 				}
 			}
 			
+			screen.render(testPiece, testPiece.getX(), testPiece.getY());
+	
 			// Vertical line
 			if (game.hasVerticalWinner()){
 				screen.render(verticalLine, (game.winningColumn*100), (game.winningRow*100));
@@ -248,8 +258,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		bs.show();
 	}
 
+	//public int n = 1;
+	
 	public void update() {
 		//All animations
+		if ( State == STATE.GAME ) { 
+			testPiece.update();
+		}
+		
 	}
 	
 	public void init() {
