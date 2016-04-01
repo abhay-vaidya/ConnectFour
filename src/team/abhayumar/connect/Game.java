@@ -14,7 +14,17 @@ public class Game {
 	int lowestRow;
 	public static final int ROWS = 6;
 	public static final int COLUMNS = 7;
+	public int winningRow;
+	public int winningColumn;
 	private int board[][] = new int[ROWS][COLUMNS];
+	public enum DIAGONAL{
+		TOP_LEFT,
+		TOP_RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM_RIGHT
+	}
+	private DIAGONAL Diagonal;
+	
 	
 	/**
 	 * Constructor
@@ -25,6 +35,10 @@ public class Game {
 				board[i][j] = 0;
 			}
 		}
+	}
+	
+	public DIAGONAL getDiagonalState(){
+		return Diagonal;
 	}
 	
 	/**
@@ -110,91 +124,150 @@ public class Game {
 		return false;
 	}
 	
+	public boolean hasVerticalWinner() {
+		boolean winner = false;
+
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLUMNS; j++) {
+
+				// Check PLAYER ONE
+				if (board[i][j] == 1 && i < 3) {
+					if (board[i + 1][j] == 1 && board[i + 2][j] == 1 && board[i + 3][j] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+					}
+				}
+				// Check PLAYER TWO
+				if (board[i][j] == 2 && i < 3) {
+					if (board[i + 1][j] == 2 && board[i + 2][j] == 2 && board[i + 3][j] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+					}
+				}
+			}
+		}
+		return winner;
+	}
+	
+	public boolean hasHorizontalWinner() {
+		boolean winner = false;
+
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLUMNS; j++) {
+
+				// Check PLAYER ONE
+				if (board[i][j] == 1 && j < 4) {
+					if (board[i][j + 1] == 1 && board[i][j + 2] == 1 && board[i][j + 3] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+					}
+				}
+				// Check PLAYER TWo
+				if (board[i][j] == 2 && j < 4) {
+					if (board[i][j + 1] == 2 && board[i][j + 2] == 2 && board[i][j + 3] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+					}
+				}
+			}
+		}
+		return winner;
+	}
+	
+	public boolean hasDiagonalWinner() {
+		boolean winner = false;
+
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLUMNS; j++) {
+
+				// Check PLAYER ONE
+				if (board[i][j] == 1 && j <= 3 && i <= 2) {
+					if (board[i + 1][j + 1] == 1 && board[i + 2][j + 2] == 1 && board[i + 3][j + 3] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.TOP_LEFT;
+					}
+				}
+				if (board[i][j] == 1 && j >= 4 && i <= 2) {
+					if (board[i + 1][j - 1] == 1 && board[i + 2][j - 2] == 1 && board[i + 3][j - 3] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.TOP_RIGHT;
+					}
+				}
+				if (board[i][j] == 1 && j <= 3 && i >= 3) {
+					if (board[i - 1][j + 1] == 1 && board[i - 2][j + 2] == 1 && board[i - 3][j + 3] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.BOTTOM_LEFT;
+					}
+				}
+				if (board[i][j] == 1 && j >= 4 && i >= 3) {
+					if (board[i - 1][j - 1] == 1 && board[i - 2][j - 2] == 1 && board[i - 3][j - 3] == 1) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.BOTTOM_RIGHT;
+					}
+				}
+
+				// Check PLAYER TWO
+				if (board[i][j] == 2 && j <= 3 && i <= 2) {
+					if (board[i + 1][j + 1] == 2 && board[i + 2][j + 2] == 2 && board[i + 3][j + 3] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.TOP_LEFT;
+					}
+				}
+				if (board[i][j] == 2 && j >= 4 && i <= 2) {
+					if (board[i + 1][j - 1] == 2 && board[i + 2][j - 2] == 2 && board[i + 3][j - 3] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.TOP_RIGHT;
+					}
+				}
+				if (board[i][j] == 2 && j <= 3 && i >= 3) {
+					if (board[i - 1][j + 1] == 2 && board[i - 2][j + 2] == 2 && board[i - 3][j + 3] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.BOTTOM_LEFT;
+					}
+				}
+				if (board[i][j] == 2 && j >= 4 && i >= 3) {
+					if (board[i - 1][j - 1] == 2 && board[i - 2][j - 2] == 2 && board[i - 3][j - 3] == 2) {
+						winner = true;
+						winningRow = i+1;
+						winningColumn = j+1;
+						Diagonal = DIAGONAL.BOTTOM_RIGHT;
+					}
+				}
+			}
+		}
+		return winner;
+
+	}
+	
 	/**
 	 * Checks board 2D array for any winners
 	 * @return Boolean
 	 */
 	public boolean hasWinner(){
 		boolean winner = false;
-		for (int i = 0; i < ROWS; i ++) {
-			for (int j = 0; j < COLUMNS; j ++) {
-				
-			// Check PLAYER ONE
-	    		// Check horizontal
-		    	if (board[i][j] == 1 && j < 4){
-		    		if(board[i][j+1] == 1 && board[i][j+2] == 1 && board[i][j+3] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	
-	    		// Check vertical
-		    	if (board[i][j] == 1 && i < 3){
-		    		if(board[i+1][j] == 1 && board[i+2][j] == 1 && board[i+3][j] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	
-	    		// Check diagonal for player one
-		    	if (board[i][j] == 1 && j <= 3 && i <= 2){
-		    		if(board[i+1][j+1] == 1 && board[i+2][j+2] == 1 && board[i+3][j+3] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 1 && j >= 4 && i <= 2){
-		    		if(board[i+1][j-1] == 1 && board[i+2][j-2] == 1 && board[i+3][j-3] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 1 && j <= 3 && i >= 3){
-		    		if(board[i-1][j+1] == 1 && board[i-2][j+2] == 1 && board[i-3][j+3] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 1 && j >= 4 && i >= 3){
-		    		if(board[i-1][j-1] == 1 && board[i-2][j-2] == 1 && board[i-3][j-3] == 1){
-		    			winner = true;
-		    		}
-		    	}
-		    	
-                // Check PLAYER TWO
-	    		// Check horizontal
-		    	if (board[i][j] == 2 && j < 4){
-		    		if(board[i][j+1] == 2 && board[i][j+2] == 2 && board[i][j+3] == 2){
-		    			winner = true;
-		    		}
-		    	}
-		    	
-	    		// Check vertical
-		    	if (board[i][j] == 2 && i < 3){
-		    		if(board[i+1][j] == 2 && board[i+2][j] == 2 && board[i+3][j] == 2){
-		    			winner = true;
-		    		}
-		    	}
-		    	
-	    		// Check diagonal for player two
-		    	if (board[i][j] == 2 && j <= 3 && i <= 2){
-		    		if(board[i+1][j+1] == 2 && board[i+2][j+2] == 2 && board[i+3][j+3] == 2){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i <= 2){
-		    		if(board[i+1][j-1] == 2 && board[i+2][j-2] == 2 && board[i+3][j-3] == 2){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 2 && j <= 3 && i >= 3){
-		    		if(board[i-1][j+1] == 2 && board[i-2][j+2] == 2 && board[i-3][j+3] == 2){
-		    			winner = true;
-		    		}
-		    	}
-		    	if (board[i][j] == 2 && j >= 4 && i >= 3){
-		    		if(board[i-1][j-1] == 2 && board[i-2][j-2] == 2 && board[i-3][j-3] == 2){
-		    			winner = true;
-		    		}
-		    	}
-			}
+		
+		if (hasVerticalWinner() || hasHorizontalWinner() || hasDiagonalWinner()){
+			return true;
 		}
-		return winner;
+		else return false;
 	}
 	
 	/**

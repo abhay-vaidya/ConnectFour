@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import team.abhayumar.connect.Game.DIAGONAL;
+
 @SuppressWarnings("serial")
 public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMotionListener {
 	
@@ -24,10 +26,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private static int HEIGHT = 800;
 	private static int BOARD_WIDTH = 700;
 	private static int BOARD_HEIGHT = 600;
+
 	private static String TITLE = "Connect Four";
 	private static boolean running = false;
 	private boolean isVolumeOn = true;
 	private static int highlightColumn = -1;
+	private static int winningRow;
+	private static int winningColumn;
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
@@ -66,8 +71,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private Art nameCredit = new Art("res/namecredit.png", 493, 41);
 	private Art home = new Art("res/home.png", 48, 48);
 	private Art restart = new Art("res/restart.png", 48, 48);
-	
-	
+	private Art verticalLine = new Art("res/vertical line.png", 100, 400);
+	private Art horizontalLine = new Art("res/horizontal line.png", 400, 100);
+	private Art diagonalRight = new Art("res/diagonal line right.png", 400, 400);
+	private Art diagonalLeft = new Art("res/diagonal line left.png", 400, 400);
 	
 	public Connect4() {
 		
@@ -168,21 +175,25 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		
 		else if (State == STATE.GAME) {
 			screen.fill(0x2196F3);
-
-			// Draw the pieces
+			
+			
+			// Draw board
 			screen.render(bg, (WIDTH - bg.width) / 2, (HEIGHT - bg.height) / 2);
+			
+			// Draw player turn
 			if (game.turn.getID() == 1) {
 				screen.render(turnP1, 0, 0);
 			}
-
 			else if (game.turn.getID() == 2) {
 				screen.render(turnP2, 0, 0);
 			}
-
+			
+			// Highlight column
 			if (highlightColumn != -1) {
 				screen.render(highlight, highlightColumn * 100 + 100, 100);
 			}
-			
+				
+			// Toggle volume
 			if (isVolumeOn){
 				screen.render(volumeOn, 827, 20);
 			} else {
@@ -194,7 +205,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			// Restart Icon
 			screen.render(restart, 693, 20);
-
+			
+			// Draw pieces
 			for (int i = 0; i < game.ROWS; i++) {
 				for (int j = 0; j < game.COLUMNS; j++) {
 					if (game.getCell(i, j) == 1) {
@@ -202,6 +214,30 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					} else if (game.getCell(i, j) == 2) {
 						screen.render(p2, j * 100 + 100, i * 100 + 100);
 					}
+				}
+			}
+			
+			// Vertical line
+			if (game.hasVerticalWinner()){
+				screen.render(verticalLine, (game.winningColumn*100), (game.winningRow*100));
+			}
+			// Horizontal Line
+			else if (game.hasHorizontalWinner()){
+				screen.render(horizontalLine, (game.winningColumn*100), (game.winningRow*100));
+			}
+			// Diagonal Line
+			else if (game.hasDiagonalWinner()){
+				if(game.getDiagonalState() == DIAGONAL.TOP_LEFT){
+					screen.render(diagonalLeft, (game.winningColumn*100), (game.winningRow*100));
+				}
+				else if (game.getDiagonalState() == DIAGONAL.TOP_RIGHT){
+					screen.render(diagonalRight, (game.winningColumn*100), (game.winningRow*100));
+				}
+				else if (game.getDiagonalState() == DIAGONAL.BOTTOM_LEFT){
+					screen.render(diagonalRight, (game.winningColumn*100), (game.winningRow*100)-300);
+				}
+				else if (game.getDiagonalState() == DIAGONAL.BOTTOM_RIGHT){
+					screen.render(diagonalLeft, (game.winningColumn*100)-300, (game.winningRow*100)-300);
 				}
 			}
 		}
@@ -267,6 +303,9 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
+		
+		winningRow = Math.round(y/100);
+		winningColumn = Math.round(x/100);
 		
 		if (State == STATE.MAIN_MENU) {
 			if (x > 827 && y > 20 && x < 875 && y < 68){
@@ -345,6 +384,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
+				
 					
 					State = STATE.WINNER;
 					
