@@ -15,20 +15,25 @@ public class Animation {
 		this.curY = startY;
 		this.endY = endY;
 	}
+
+	public boolean isAnimationDone() {
+		if (curY == endY) {
+			return true;
+		}
+		return false;
+	}
 	
 	public void update() {
-		
-		
 		int tempY = (int) Math.round(curY + velocity);
-		
 		if (tempY < endY) {
 			curY = tempY;
 			velocity += gravity;
 		} else {
 			curY = endY;
 		}
+
 	}
-	
+
 	public int getX() {
 		return this.curX;
 	}

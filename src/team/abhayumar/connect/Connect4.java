@@ -23,42 +23,50 @@ import team.abhayumar.connect.Game.DIAGONAL;
 @SuppressWarnings("serial")
 public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMotionListener {
 	
-	private static int WIDTH = 900;
-	private static int HEIGHT = 800;
-	private static int BOARD_WIDTH = 700;
-	private static int BOARD_HEIGHT = 600;
-
-	private static String TITLE = "Connect Four";
-	private static boolean running = false;
-	private boolean isVolumeOn = true;
-	private static int highlightColumn = -1;
-	private static int winningRow;
-	private static int winningColumn;
 	private Game game;
 	private Thread thread;
 	private JFrame frame;
 	private Screen screen;
+	
+	private static int WIDTH = 900;
+	private static int HEIGHT = 800;
+	private static int BOARD_WIDTH = 700;
+	private static int BOARD_HEIGHT = 600;
+	private static String TITLE = "Connect Four";
+	
+	private static int highlightColumn = -1;
+	private static int winningRow;
+	private static int winningColumn;
+	
+	private static boolean running = false;
+	private boolean isVolumeOn = true;
+	private boolean shouldRender = false;
+	
 	private enum OUTCOME{
 		WINNER_P1,
 		WINNER_P2,
 		DRAW
 	}
+	private OUTCOME Outcome;
+	
 	private enum STATE {
-			MAIN_MENU,
-			INSTRUCTION,
-			SETUP,
-			GAME,
-			WINNER
+		MAIN_MENU,
+		INSTRUCTION,
+		SETUP,
+		GAME,
+		WINNER
 	};
 	private STATE State;
-	private OUTCOME Outcome;
-	private Sound bgMusic;
+
+	private Sound gameSound;
 	
-	private Art p1 = new Art("res/p1.png", 100 ,100);
-	private Art p2 = new Art("res/p2.png", 100, 100);
+	private final long PERIOD = 1000L; // Adjust to suit timing
+	private long lastTime = System.currentTimeMillis() - PERIOD;
+
 	
 	private ArrayList<Animation> pieces = new ArrayList<Animation>();
-	
+	private Art p1 = new Art("res/p1.png", 100 ,100);
+	private Art p2 = new Art("res/p2.png", 100, 100);
 	private Art bg = new Art("res/gameboard.png", 768, 680);
 	private Art highlight = new Art("res/highlight.png", 100, 600);
 	private Art turnP1 = new Art("res/turnP1.png", 100, 60);
@@ -214,29 +222,30 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			for (int i = 0; i < pieces.size(); i++) {
 				screen.render(pieces.get(i).getArt(), pieces.get(i).getX(), pieces.get(i).getY());
 			}
-	
-			// Vertical line
-			if (game.hasVerticalWinner()){
-				screen.render(verticalLine, (game.winningColumn*100), (game.winningRow*100));
-			}
-			// Horizontal Line
-			else if (game.hasHorizontalWinner()){
-				screen.render(horizontalLine, (game.winningColumn*100), (game.winningRow*100));
-			}
-			// Diagonal Line
-			else if (game.hasDiagonalWinner()){
-				if(game.getDiagonalState() == DIAGONAL.TOP_LEFT){
-					screen.render(diagonalLeft, (game.winningColumn*100), (game.winningRow*100));
+			
+			if (shouldRender) {
+
+				// Vertical line
+				if (game.hasVerticalWinner()) {
+					screen.render(verticalLine, (game.winningColumn * 100), (game.winningRow * 100));
 				}
-				else if (game.getDiagonalState() == DIAGONAL.TOP_RIGHT){
-					screen.render(diagonalRight, (game.winningColumn*100), (game.winningRow*100));
+				// Horizontal Line
+				else if (game.hasHorizontalWinner()) {
+					screen.render(horizontalLine, (game.winningColumn * 100), (game.winningRow * 100));
 				}
-				else if (game.getDiagonalState() == DIAGONAL.BOTTOM_LEFT){
-					screen.render(diagonalRight, (game.winningColumn*100), (game.winningRow*100)-300);
+				// Diagonal Line
+				else if (game.hasDiagonalWinner()) {
+					if (game.getDiagonalState() == DIAGONAL.TOP_LEFT) {
+						screen.render(diagonalLeft, (game.winningColumn * 100), (game.winningRow * 100));
+					} else if (game.getDiagonalState() == DIAGONAL.TOP_RIGHT) {
+						screen.render(diagonalRight, (game.winningColumn * 100), (game.winningRow * 100));
+					} else if (game.getDiagonalState() == DIAGONAL.BOTTOM_LEFT) {
+						screen.render(diagonalRight, (game.winningColumn * 100), (game.winningRow * 100) - 300);
+					} else if (game.getDiagonalState() == DIAGONAL.BOTTOM_RIGHT) {
+						screen.render(diagonalLeft, (game.winningColumn * 100) - 300, (game.winningRow * 100) - 300);
+					}
 				}
-				else if (game.getDiagonalState() == DIAGONAL.BOTTOM_RIGHT){
-					screen.render(diagonalLeft, (game.winningColumn*100)-300, (game.winningRow*100)-300);
-				}
+
 			}
 		}
 
@@ -245,18 +254,34 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		g.dispose();
 		bs.show();
 	}
-
-	//public int n = 1;
 	
 	public void update() {
-		//All animations
-		if ( State == STATE.GAME ) { 
-			//testPiece.update();
+		if (State == STATE.GAME) {
 			for (int i = 0; i < pieces.size(); i++) {
 				pieces.get(i).update();
 			}
+
+			if (shouldRenderWinLine()) {
+				long thisTime = System.currentTimeMillis();
+				if ((thisTime - lastTime) >= PERIOD) {
+					lastTime = thisTime;
+					shouldRender = true;
+				}
+			}
 		}
-		
+	}
+	
+	public boolean shouldRenderWinLine() {
+		int counter = 0;
+		for (int i = 0; i < pieces.size(); i++) {
+			if (pieces.get(i).isAnimationDone()) {
+				counter++;
+			}
+			if (counter == pieces.size() && game.hasWinner()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void init() {
@@ -277,7 +302,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		frame.setVisible(true);
 		
 		//PLAY BACKGROUND MUSIC
-		bgMusic = new Sound("res/test.wav", true);
+		gameSound = new Sound("res/test.wav", true);
 		
 		screen = new Screen(WIDTH, HEIGHT);
 		game = new Game();
@@ -316,7 +341,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		
 		if (State == STATE.MAIN_MENU) {
 			if (x > 827 && y > 20 && x < 875 && y < 68){
-				bgMusic.toggleVolume();
+				gameSound.toggleVolume();
 				if (isVolumeOn){
 				isVolumeOn = false;
 				} else{
@@ -348,7 +373,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			// Volume toggle
 			if (x > 827 && y > 20 && x < 875 && y < 68){
-				bgMusic.toggleVolume();
+				gameSound.toggleVolume();
 				if (isVolumeOn){
 				isVolumeOn = false;
 				} else{
@@ -376,6 +401,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				if ( option == JOptionPane.OK_OPTION ) {
 					game.clearBoard();
 					pieces.clear();
+					shouldRender = false;
 				}
 			}
 			
@@ -397,15 +423,14 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				}
 				
 				if (game.hasWinner()) {
-					
 					// Pause game 
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(2000);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
-				
 					
+					// Change state depending on winner
 					State = STATE.WINNER;
 					
 					if (game.turn.getID() == 1){
@@ -415,14 +440,17 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 						Outcome = OUTCOME.WINNER_P2;
 					}
 					
+					// Reset game
 					game.clearBoard();
 					pieces.clear();
+					shouldRender = false;
 					
 				} else if (game.hasDraw()) {
 					State = STATE.WINNER;
 					Outcome = OUTCOME.DRAW;
 					game.clearBoard();
 					pieces.clear();
+					shouldRender = false;
 				}
 
 			}
@@ -436,6 +464,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				State = STATE.GAME;
 				game.clearBoard();
 				pieces.clear();
+				shouldRender = false;
 			}
 		}
 	}
