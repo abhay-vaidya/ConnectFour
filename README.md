@@ -30,3 +30,5 @@ ConnectFour is a Java based Swing and AWT game that recreates the thrill and exc
 ![Instructions screen](https://i.gyazo.com/122c2816756ac16224a7fbd91ba788e5.png)
 
 ![In-game screenshot](https://i.gyazo.com/8c9753d3b020a79f8c92062255abe145.png)
+
+![Winner screen](https://i.gyazo.com/71d4e8410ca1789ebe1ad5bb74f9d72b.png)
