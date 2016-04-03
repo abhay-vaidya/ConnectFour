@@ -38,7 +38,7 @@ public class Sound implements Runnable {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
 			
-			// Set initial volume
+			// Set initial volume to -10.0f
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			gainControl.setValue(volume);
 
