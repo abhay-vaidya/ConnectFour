@@ -24,7 +24,7 @@ public class Player {
 	}
 	
 	/**
-	 * Constructor for possible file loading
+	 * Constructor for possible file loading.
 	 * 
 	 * @param id  the player's ID (1 or 2)
 	 * @param wins  the player's wins
