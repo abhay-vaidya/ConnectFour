@@ -20,8 +20,8 @@ ConnectFour is a Java based Swing and AWT game that recreates the thrill and exc
   <li>Hover animation</li>
   <li>Piece drop animation</li>
   <li>FPS and UPS counter</li>
-  <li>Sounds Effects</li>
-  <li>Background Music</li>
+  <li>Sounds effects</li>
+  <li>Background music (can mute)</li>
 </ul>
 
 ## Screenshots:
