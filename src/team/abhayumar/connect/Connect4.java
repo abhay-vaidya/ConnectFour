@@ -1,23 +1,17 @@
 package team.abhayumar.connect;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import team.abhayumar.connect.Game.DIAGONAL;
 
 @SuppressWarnings("serial")
@@ -133,7 +127,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			if (System.currentTimeMillis() - timer >= 1000) {
 	            timer += 1000;
-	            frame.setTitle(TITLE + " | ups: " + updates + " fps: " + frames);
+	            frame.setTitle(TITLE + " | " + updates + " UPS | " + frames + " FPS" );
 	            updates = 0;
 	            frames = 0;
 	        }
@@ -145,7 +139,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		BufferStrategy bs = this.getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
-			requestFocus(); // VERY IMPORTANT
+			requestFocus();
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
@@ -293,6 +287,8 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		State = STATE.MAIN_MENU;
 		
 		frame = new JFrame(TITLE);
+		ImageIcon img = new ImageIcon("res/icon.png");
+		frame.setIconImage(img.getImage());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);
@@ -383,7 +379,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			// Main menu link
 			if (x > 760 && y > 20 && x < 808 && y < 68){
-				
+				new Sound("res/drop.wav", false);
 				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Quit Game", JOptionPane.OK_CANCEL_OPTION);
 				
 				if ( option == JOptionPane.OK_OPTION ) {
@@ -395,7 +391,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			// Restart game link
 			if (x > 693 && y > 20 && x < 741 && y < 68){
-				
+				new Sound("res/drop.wav", false);
 				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Restart Game", JOptionPane.OK_CANCEL_OPTION);
 				
 				if ( option == JOptionPane.OK_OPTION ) {
@@ -425,7 +421,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				if (game.hasWinner()) {
 					// Pause game 
 					try {
-						Thread.sleep(2000);
+						Thread.sleep(1500);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
@@ -434,10 +430,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					State = STATE.WINNER;
 					
 					if (game.turn.getID() == 1){
-						Outcome = OUTCOME.WINNER_P1;
+						Outcome = OUTCOME.WINNER_P2;
 					}
 					else if (game.turn.getID() == 2){
-						Outcome = OUTCOME.WINNER_P2;
+						Outcome = OUTCOME.WINNER_P1;
 					}
 					
 					// Reset game
@@ -458,9 +454,11 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		
 		else if (State == STATE.WINNER){
 			if (x > 110 && y > 560 && x < 300 && y < 680){
+				new Sound("res/drop.wav", false);
 				State = STATE.MAIN_MENU;
 			}
 			else if (x > 500 && y > 600 && x < 790 && y < 650){
+				new Sound("res/drop.wav", false);
 				State = STATE.GAME;
 				game.clearBoard();
 				pieces.clear();
