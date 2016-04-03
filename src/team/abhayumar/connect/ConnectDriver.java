@@ -9,7 +9,5 @@ public class ConnectDriver {
 		
 		// Start the game
 		connect.start();
-		
 	}
-
 }
