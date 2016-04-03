@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 /**
- * Represents final screen to be displayed every time interval
+ * Represents final screen to be displayed every time interval.
  * 
  * @author Abhay, Umar
  * @version 1.0
