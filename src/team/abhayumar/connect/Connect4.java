@@ -154,10 +154,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			} else {
 				screen.render(volumeOff, 827, 20);
 			}
-			screen.render(logo, (WIDTH - logo.width)/2, 100);
-			screen.render(nameCredit, (WIDTH - nameCredit.width)/2, 700);
-			screen.render(newGameBtn, (WIDTH - newGameBtn.width) / 2, 350);
-			screen.render(instructionsBtn, (WIDTH - instructionsBtn.width) / 2, 475);
+			screen.render(logo, (WIDTH - logo.getWidth())/2, 100);
+			screen.render(nameCredit, (WIDTH - nameCredit.getWidth())/2, 700);
+			screen.render(newGameBtn, (WIDTH - newGameBtn.getWidth()) / 2, 350);
+			screen.render(instructionsBtn, (WIDTH - instructionsBtn.getWidth()) / 2, 475);
 
 		} else if (State == STATE.INSTRUCTION) {
 			screen.fill(0xFFC107);
@@ -180,7 +180,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			
 			// Draw board
-			screen.render(bg, (WIDTH - bg.width) / 2, (HEIGHT - bg.height) / 2);
+			screen.render(bg, (WIDTH - bg.getWidth()) / 2, (HEIGHT - bg.getHeight()) / 2);
 			
 			// Draw player turn
 			if (game.turn.getID() == 1) {
@@ -321,12 +321,12 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					isVolumeOn = true;
 				}
 			}
-			if(x > ((WIDTH-300)/2) && y > 350 && x < ((WIDTH+300)/2) && y < 350+newGameBtn.height){
+			if(x > ((WIDTH-300)/2) && y > 350 && x < ((WIDTH+300)/2) && y < 350+newGameBtn.getHeight()){
 				new Sound("res/drop.wav", false);
 				game.runGame();
 				State = STATE.GAME;
 			}
-			else if (x > ((WIDTH-300)/2) && y > 475 && x < ((WIDTH+300)/2) && y < 475+instructionsBtn.height){
+			else if (x > ((WIDTH-300)/2) && y > 475 && x < ((WIDTH+300)/2) && y < 475+instructionsBtn.getHeight()){
 				new Sound("res/drop.wav", false);
 				State = STATE.INSTRUCTION;
 			}
@@ -380,7 +380,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			
 			// Within board bounds
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
-				int row = Math.round((y - 100) / 100);
 				int column = Math.round((x - 100) / 100);
 
 				int player = game.turn.getID();
