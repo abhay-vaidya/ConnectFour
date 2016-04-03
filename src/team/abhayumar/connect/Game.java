@@ -46,12 +46,12 @@ public class Game {
 	 * @param name - Name of player
 	 * @param id - ID of player (1 or 2)
 	 */
-	public void createPlayer(int id, String name){
+	public void createPlayer(int id){
 		if (id == 1){
-			playerOne = new Player(name, id);
+			playerOne = new Player(id);
 		}
 		else {
-			playerTwo = new Player(name, id);
+			playerTwo = new Player(id);
 		}
 	}
 	
@@ -60,9 +60,9 @@ public class Game {
 	 * @param p1 - Player One
 	 * @param p2 - Player Two
 	 */
-	public void runGame(String p1, String p2){
-		createPlayer(1, p1);
-		createPlayer(2, p2);
+	public void runGame(){
+		createPlayer(1);
+		createPlayer(2);
 		randPlayer();
 	}
 	
@@ -271,12 +271,9 @@ public class Game {
 	 * @return Boolean
 	 */
 	public boolean hasWinner(){
-		boolean winner = false;
-		
 		if (hasVerticalWinner() || hasHorizontalWinner() || hasDiagonalWinner()){
 			return true;
-		}
-		else return false;
+		} else return false;
 	}
 	
 	/**

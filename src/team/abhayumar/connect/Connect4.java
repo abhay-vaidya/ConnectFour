@@ -323,9 +323,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 			if(x > ((WIDTH-300)/2) && y > 350 && x < ((WIDTH+300)/2) && y < 350+newGameBtn.height){
 				new Sound("res/drop.wav", false);
-				String p1Name = "Player 1";
-				String p2Name = "Player 2";
-				game.runGame(p1Name, p2Name);
+				game.runGame();
 				State = STATE.GAME;
 			}
 			else if (x > ((WIDTH-300)/2) && y > 475 && x < ((WIDTH+300)/2) && y < 475+instructionsBtn.height){
@@ -340,9 +338,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 			else if (x > 625 && y > 45 && x < 865 && y < 85){
 				new Sound("res/drop.wav", false);
-				String p1Name = "Player 1";
-				String p2Name = "Player 2";
-				game.runGame(p1Name, p2Name);
+				game.runGame();
 				State = STATE.GAME;
 			}
 

@@ -2,7 +2,6 @@ package team.abhayumar.connect;
 
 public class Player {
 
-	private String name;
 	private int id;
 	private int wins = 0;
 	private int losses = 0;
@@ -13,8 +12,7 @@ public class Player {
 	 * @param name - Player name
 	 * @param id - Player ID (1 or 2)
 	 */
-	public Player(String name, int id) {
-		this.name = name;
+	public Player(int id) {
 		this.id = id;
 	}
 	
@@ -26,28 +24,11 @@ public class Player {
 	 * @param losses - Player's losses
 	 * @param draws - Player's draws
 	 */
-	public Player(String name, int id, int wins, int losses, int draws) {
-		this.name = name;
+	public Player(int id, int wins, int losses, int draws) {
 		this.id = id;
 		this.wins = wins;
 		this.losses = losses;
 		this.draws = draws;
-	}
-
-	/**
-	 * Returns player's name
-	 * @return - The player's name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Sets player's name
-	 * @param name - The new name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	/**
