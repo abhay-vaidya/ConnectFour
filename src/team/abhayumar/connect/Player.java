@@ -1,16 +1,23 @@
 package team.abhayumar.connect;
 
+/**
+ * Class to handle players
+ * 
+ * @author Abhay, Umar
+ * @version 1.0
+ */
 public class Player {
 
+	// Initialize variables
 	private int id;
 	private int wins = 0;
 	private int losses = 0;
 	private int draws = 0;
 	
 	/**
-	 * Constructor with name and ID
-	 * @param name - Player name
-	 * @param id - Player ID (1 or 2)
+	 * Constructor with name and ID.
+	 * 
+	 * @param id  the player's ID (1 or 2)
 	 */
 	public Player(int id) {
 		this.id = id;
@@ -18,11 +25,11 @@ public class Player {
 	
 	/**
 	 * Constructor for possible file loading
-	 * @param name - Player name
-	 * @param id - Player ID (1 or 2)
-	 * @param wins - Player's wins
-	 * @param losses - Player's losses
-	 * @param draws - Player's draws
+	 * 
+	 * @param id  the player's ID (1 or 2)
+	 * @param wins  the player's wins
+	 * @param losses  the player's losses
+	 * @param draws  the player's draws
 	 */
 	public Player(int id, int wins, int losses, int draws) {
 		this.id = id;
@@ -32,75 +39,84 @@ public class Player {
 	}
 	
 	/**
-	 * Gets player's ID
-	 * @return - The player's ID
+	 * Gets player's ID.
+	 * 
+	 * @return the player's ID
 	 */
 	public int getID() {
-		return id; 
+		return id;
 	}
 	
 	/**
-	 * Sets player's ID
-	 * @param id - The new ID to set
+	 * Sets player's ID.
+	 * 
+	 * @param id  the new ID to set
 	 */
 	public void setID(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * Gets player's wins
-	 * @return wins - The player's # of wins
+	 * Gets player's wins.
+	 * 
+	 * @return wins  the player's # of wins
 	 */
 	public int getWins() {
 		return wins;
 	}
 
 	/**
-	 * Sets player's wins
-	 * @param wins - The new # of wins to set
+	 * Sets player's wins.
+	 * 
+	 * @param wins  the new # of wins to set
 	 */
 	public void setWins(int wins) {
 		this.wins = wins;
 	}
 
 	/**
-	 * Gets player's losses
-	 * @return losses - The player's # of losses
+	 * Gets player's losses.
+	 * 
+	 * @return losses  the player's # of losses
 	 */
 	public int getLosses() {
 		return losses;
 	}
 
 	/**
-	 * Sets player's losses
-	 * @param losses - The new # of losses to set
+	 * Sets player's losses.
+	 * 
+	 * @param losses  the new # of losses to set
 	 */
 	public void setLosses(int losses) {
 		this.losses = losses;
 	}
 
 	/**
-	 * Gets player's draws
-	 * @return draws - The player's # of draws
+	 * Gets player's draws.
+	 * 
+	 * @return draws  the player's # of draws
 	 */
 	public int getDraws() {
 		return draws;
 	}
 
 	/**
-	 * Sets player's draws
-	 * @param draws - The new # of draws to set
+	 * Sets player's draws.
+	 * 
+	 * @param draws  the new # of draws to set
 	 */
 	public void setDraws(int draws) {
 		this.draws = draws;
 	}
 	
 	/**
-	 * Override equals method
-	 * @Override
+	 * Override equals method.
+	 * 
+	 * @Override equals
 	 */
 	public boolean equals(Object obj) {
-		Player p = (Player)obj;
+		Player p = (Player) obj;
 		return p.getID() == this.getID();
 	}
 }
