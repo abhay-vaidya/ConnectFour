@@ -10,27 +10,27 @@ import java.util.Arrays;
 public class Bitmap {
 	
 	// Initialize variables
-	public int width, height;
-	public int[] pixels;
+	private int width, height;
+	private int[] pixels;
 	
 	
 	/**
-	 * Default contstructor.
+	 * Default constructor.
 	 * 
 	 * @param w  the width of the image
 	 * @param h  the height of the image
 	 */
 	public Bitmap(int w, int h) {
-		this.width = w;
-		this.height = h;
-		this.pixels = new int[this.width * this.height];
+		this.setWidth(w);
+		this.setHeight(h);
+		this.setPixels(new int[this.getWidth() * this.getHeight()]);
 	}
 	
 	/**
 	 * Fills the pixel array with black.
 	 */
 	public void clear() {
-		Arrays.fill(this.pixels, 0);
+		Arrays.fill(this.getPixels(), 0);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class Bitmap {
 	 * @param color  the color to fill the pixel data with in integer form
 	 */
 	public void fill(int color) {
-		Arrays.fill(this.pixels, color);
+		Arrays.fill(this.getPixels(), color);
 	}
 	
 	/**
@@ -51,15 +51,15 @@ public class Bitmap {
 	 */
 	public void render(Bitmap bmp, int x, int y) {
 		int xStart = x;
-		int xEnd = x + bmp.width;
+		int xEnd = x + bmp.getWidth();
 		int yStart = y;
-		int yEnd = y + bmp.height;
+		int yEnd = y + bmp.getHeight();
 		
 		// Image bounds checking
 		if (xStart < 0) xStart = 0;
-		if (xEnd > width) xEnd = width;
+		if (xEnd > getWidth()) xEnd = getWidth();
 		if (yStart < 0) yStart = 0;
-		if (yEnd > height) yEnd = height;
+		if (yEnd > getHeight()) yEnd = getHeight();
 		
 		int widthResult = xEnd - xStart;
 		
@@ -68,14 +68,46 @@ public class Bitmap {
 		 * URL: https://youtu.be/JXpKc7UAQRU?t=12m39s
 		 */
 		for (int i=yStart; i<yEnd; ++i) {  // Rows
-			int tp = i * this.width + xStart;
-			int sp = (i - y) * bmp.width + (xStart - x);
+			int tp = i * this.getWidth() + xStart;
+			int sp = (i - y) * bmp.getWidth() + (xStart - x);
 			tp -= sp;
 			for(int j=sp; j<sp + widthResult; ++j) {  // Columns
-				int color = bmp.pixels[j];
-				if (color < 0) pixels[tp + j] = color;
+				int color = bmp.getPixels()[j];
+				if (color < 0) getPixels()[tp + j] = color;
 			}
 		}
+	}
+
+	/**
+	 * Gets the pixel data.
+	 * @return  integer array of pixel data
+	 */
+	public int[] getPixels() {
+		return pixels;
+	}
+
+	/**
+	 * Sets the pixel data.
+	 * @param pixels  the pixel data to use as a source.
+	 */
+	public void setPixels(int[] pixels) {
+		this.pixels = pixels;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 	
 }
