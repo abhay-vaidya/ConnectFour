@@ -2,7 +2,7 @@
 
 ![](http://i.imgur.com/HRJG1nr.png)
 
-ConnectFour is a Java based Swing and AWT game that recreates the thrill and excitement of the classic game of Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, Fourplay, Four in a Row, Four in a Line and Gravitrips (in Soviet Union) ).
+ConnectFour is a Java based Swing and AWT game that recreates the thrill and excitement of the classic game of Connect Four (also known as Captain's Mistress, Four Up, Plot Four, Find Four, Fourplay, Four in a Row, Four in a Line and Gravitrips). Developed by Umar Ahmed and Abhay Vaidya.
 
 ## Features:
 <ul>
@@ -19,6 +19,7 @@ ConnectFour is a Java based Swing and AWT game that recreates the thrill and exc
   <li>Instructions screen</li>
   <li>Hover animation</li>
   <li>Piece drop animation</li>
+  <li>FPS and UPS counter</li>
   <li>Sounds Effects</li>
   <li>Background Music</li>
 </ul>
