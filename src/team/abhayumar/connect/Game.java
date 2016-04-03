@@ -63,17 +63,27 @@ public class Game {
 	public void runGame(String p1, String p2){
 		createPlayer(1, p1);
 		createPlayer(2, p2);
-		turn = playerOne;
+		randPlayer();
 	}
 	
 	/**
 	 * Fills board array with zero/unoccupied values
 	 */
-	public void clearBoard(){
+	public void reset(){
 		for (int i = 0; i < ROWS; i++){
 			for (int j = 0; j < COLUMNS; j++){
 				board[i][j] = 0;
 			}
+		}
+		randPlayer();
+	}
+	
+	private void randPlayer() {
+		int rand = (int)Math.round(Math.random()) + 1;
+		if (rand == 1) {
+			turn = playerOne;
+		} else if (rand == 2) {
+			turn = playerTwo;
 		}
 	}
 	

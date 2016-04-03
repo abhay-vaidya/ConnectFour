@@ -46,7 +46,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 	private enum STATE {
 		MAIN_MENU,
 		INSTRUCTION,
-		SETUP,
 		GAME,
 		WINNER
 	};
@@ -164,9 +163,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			screen.fill(0xFFC107);
 			screen.render(instructionsText, 0, 0);
 
-		} else if (State == STATE.SETUP) {
-			screen.fill(0x009688);
-			
 		} else if (State == STATE.WINNER){
 			if (Outcome == OUTCOME.WINNER_P1){
 				screen.render(winnerp1, 0, 0);
@@ -308,25 +304,6 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 		addMouseMotionListener(this);
 	}
 
-	private void setupDialog(){
-		PlayerSetupPanel input = new PlayerSetupPanel();
-		int option = JOptionPane.showConfirmDialog(null, input, "Player Information", JOptionPane.OK_CANCEL_OPTION);
-		
-		if (option == JOptionPane.OK_OPTION) {		
-			String p1Name = input.getPlayerOneName();
-			String p2Name = input.getPlayerTwoName();
-			if (p1Name.isEmpty() || p2Name.isEmpty()) {
-				JOptionPane.showMessageDialog(null,"Incomplete field");
-				State = State.MAIN_MENU;
-			} else {
-				game.runGame(p1Name, p2Name);
-				State = STATE.GAME;
-			}				
-		} else if (option == JOptionPane.CANCEL_OPTION) {
-			State = State.MAIN_MENU;
-		}
-	}
-	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
@@ -346,8 +323,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 			if(x > ((WIDTH-300)/2) && y > 350 && x < ((WIDTH+300)/2) && y < 350+newGameBtn.height){
 				new Sound("res/drop.wav", false);
-				State = STATE.SETUP;
-				setupDialog();
+				String p1Name = "Player 1";
+				String p2Name = "Player 2";
+				game.runGame(p1Name, p2Name);
+				State = STATE.GAME;
 			}
 			else if (x > ((WIDTH-300)/2) && y > 475 && x < ((WIDTH+300)/2) && y < 475+instructionsBtn.height){
 				new Sound("res/drop.wav", false);
@@ -361,8 +340,10 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			}
 			else if (x > 625 && y > 45 && x < 865 && y < 85){
 				new Sound("res/drop.wav", false);
-				State = STATE.SETUP;
-				setupDialog();
+				String p1Name = "Player 1";
+				String p2Name = "Player 2";
+				game.runGame(p1Name, p2Name);
+				State = STATE.GAME;
 			}
 
 		} else if (State == STATE.GAME) {
@@ -383,7 +364,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Quit Game", JOptionPane.OK_CANCEL_OPTION);
 				
 				if ( option == JOptionPane.OK_OPTION ) {
-					game.clearBoard();
+					game.reset();
 					pieces.clear();
 					State = STATE.MAIN_MENU;
 				}
@@ -395,12 +376,13 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				int option = JOptionPane.showConfirmDialog(null, new JLabel("Are you sure?"), "Restart Game", JOptionPane.OK_CANCEL_OPTION);
 				
 				if ( option == JOptionPane.OK_OPTION ) {
-					game.clearBoard();
+					game.reset();
 					pieces.clear();
 					shouldRender = false;
 				}
 			}
 			
+			// Within board bounds
 			if (x >= 100 && x <= 800 && y >= 100 && y <= 700) {
 				int row = Math.round((y - 100) / 100);
 				int column = Math.round((x - 100) / 100);
@@ -410,11 +392,15 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 				
 				if (status != -1) {
 					new Sound("res/drop.wav", false);
-					game.nextTurn();	
+					
 					if (player == 1) {
 						pieces.add( new Animation(p1, column*100+100, 100, column*100+100, status*100+100) );
 					} else if (player == 2) {
 						pieces.add( new Animation(p2, column*100+100, 100, column*100+100, status*100+100) );
+					}
+					
+					if (!game.hasWinner() && !game.hasDraw()) {
+						game.nextTurn();
 					}
 				}
 				
@@ -430,21 +416,21 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 					State = STATE.WINNER;
 					
 					if (game.turn.getID() == 1){
-						Outcome = OUTCOME.WINNER_P2;
+						Outcome = OUTCOME.WINNER_P1;
 					}
 					else if (game.turn.getID() == 2){
-						Outcome = OUTCOME.WINNER_P1;
+						Outcome = OUTCOME.WINNER_P2;
 					}
 					
 					// Reset game
-					game.clearBoard();
+					game.reset();
 					pieces.clear();
 					shouldRender = false;
 					
 				} else if (game.hasDraw()) {
 					State = STATE.WINNER;
 					Outcome = OUTCOME.DRAW;
-					game.clearBoard();
+					game.reset();
 					pieces.clear();
 					shouldRender = false;
 				}
@@ -460,7 +446,7 @@ public class Connect4 extends Canvas implements Runnable, MouseListener, MouseMo
 			else if (x > 500 && y > 600 && x < 790 && y < 650){
 				new Sound("res/drop.wav", false);
 				State = STATE.GAME;
-				game.clearBoard();
+				game.reset();
 				pieces.clear();
 				shouldRender = false;
 			}
