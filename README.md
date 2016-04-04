@@ -17,6 +17,7 @@ ConnectFour is a Java based Swing and AWT game that recreates the thrill and exc
     <li>Audio mute/unmute</li>
   </ul>
   <li>Instructions screen</li>
+  <li>Multithreaded!</li>
   <li>Hover animation</li>
   <li>Piece drop animation</li>
   <li>FPS and UPS counter</li>
