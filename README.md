@@ -27,6 +27,10 @@ ConnectFour is a Java based Swing and AWT game that recreates the thrill and exc
   <li>Background music (can mute)</li>
 </ul>
 
+---
+###### **NOTE**: This game runs in a 900 x 800 px *NON-RESCALABLE* resolution. Please make sure your display is at least this size (e.g. 1920 x 1080) for an optimal experience.
+---
+
 ## Screenshots:
 ![ConnectFour home screen](https://i.gyazo.com/5857d2e055441e772cfb53282f4aae93.png)
 
